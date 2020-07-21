@@ -35,7 +35,11 @@ export class WireframesPage extends Component{
     addToSelected(chosenID) {
       let list = this.state.wireframeList;
       let chosenOne = list.filter(element => element.id == chosenID);
-      let newelement = chosenOne[0]
+      // let newelement = chosenOne[0];
+      let newelement = {
+          "id": chosenID,
+          "name" : chosenOne[0].name
+      }
       this.setState({
           selected:[...this.state.selected, newelement]
       });
