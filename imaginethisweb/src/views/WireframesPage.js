@@ -87,7 +87,7 @@ export class WireframesPage extends Component{
                                 type="checkbox"
                                 id={item.id}
                                 onChange={() => this.onChangeHandle(item.id)}
-                            />
+                            />Toggle to Choose
                         </div>
                     ))}
                 </div>
