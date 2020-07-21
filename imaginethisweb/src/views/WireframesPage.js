@@ -43,6 +43,7 @@ export class WireframesPage extends Component{
       this.setState({
           selected:[...this.state.selected, newelement]
       });
+      console.log(chosenOne[0]);
     }
 
     deleteFromSelected(chosenID) {
@@ -69,7 +70,6 @@ export class WireframesPage extends Component{
                 this.deleteFromSelected(id)
             }
         }
-        console.log("Selected NOW:", this.state.selected)
     }
 
     render() {
