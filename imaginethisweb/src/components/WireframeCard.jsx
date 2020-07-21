@@ -1,6 +1,7 @@
 import React, {Component,} from 'react'
 import Card from 'react-bootstrap/Card'
 import Button from 'react-bootstrap/Button'
+import '../css/wireframespage.css'
 
 class WireframeCard extends Component{
 

@@ -8,7 +8,9 @@
 }
 
 .card-wrapper{
+    border: green 2px solid;
     margin-top: 10px;
+    border-radius: 5px;
 }
 
 .redirect-Convert{

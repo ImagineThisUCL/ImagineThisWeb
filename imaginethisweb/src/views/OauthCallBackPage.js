@@ -102,6 +102,13 @@ export class OauthCallBackPage extends Component {
                 const cookies = new Cookies();
                 cookies.set('accessToken', this.state.accessToken, {path: '/'})
                 cookies.set('projectID', this.state.projectID, {path: '/'})
+                this.props.history.push({
+                    pathname: '/wireframes',
+                    state:{
+                        projectName:responseData.projectName,
+                        wireframeList: responseData.wireframeList
+                    }
+                })
             }else{
                 $(".error_message").css('display','block');
             }
