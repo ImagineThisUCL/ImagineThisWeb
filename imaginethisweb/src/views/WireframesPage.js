@@ -34,7 +34,6 @@ export class WireframesPage extends Component{
         //         selected:this.state.selected
         //     }
         // })
-        console.log(this.state.selected);
         let responseData = undefined;
         $.ajax({
             type: "POST",
@@ -90,7 +89,6 @@ export class WireframesPage extends Component{
 
     onChangeHandle(id) {
         let array = this.state.selected
-        console.log(array.includes(id))
         if(array.includes(id)){
             this.removeSelected(id)
         } else {
