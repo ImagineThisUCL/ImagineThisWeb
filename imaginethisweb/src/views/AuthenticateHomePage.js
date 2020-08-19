@@ -11,8 +11,8 @@ export class AuthenticateHomePage extends Component {
         this.state = {
             accessToken: '',
             projectID: '',
-            tokenError: true,
-            projectIDError: true,
+            tokenError: false,
+            projectIDError: false,
         }
 
         this.handleChangeProjectID = this.handleChangeProjectID.bind(this)
@@ -95,33 +95,45 @@ export class AuthenticateHomePage extends Component {
 
     render() {
         return (
+
             <Fragment>
                 <Navigation/>
                 <div className="container">
+                    <div className="row">
+                        <div className="col-12 col-lg-8 offset-lg-2 text-center">
+                            <h3 class="mt-5">Welcome to ImagineThis wireframe converter</h3>
+                            <p class="lead mt-3">
+                                This application allows you to load Figma wireframes and convert them into a react-native application template. Get started by authenticating with Figma below.
+                            </p>
+                        </div>
+                    </div>
                     <div className="row">
                         <div className="col-12 col-lg-8 offset-lg-2">
                             <div className="auth-form">
                                 <Tabs defaultActiveKey="auth-token" id="uncontrolled-tab-example">
                                     <Tab eventKey="auth-token" title="Authenticate with Token">
-                                        <p className="auth-form-item">Please enter your Figma access token and project ID,
-                                            see <a href="https://www.figma.com/developers/api#access-tokens" target="_blank" rel="noopener noreferrer">here</a> to learn how to generate your Figma access token and
-                                            project ID</p>
+                                        <h5>Please enter your Figma access token and project ID</h5>
+                                        <p className="mt-2"><a href="https://www.figma.com/developers/api#access-tokens" target="_blank" rel="noopener noreferrer">Click here</a> to learn how to generate your Figma access token and project ID</p>
                                         <input
-                                            className={'form-control auth-form-item ' + (this.state.tokenError ? 'is-invalid' : '')}
-                                            placeholder="Enter your Figma access token" onChange={this.handleChangeToken}/>
+                                            className={'form-control mt-4 ' + (this.state.tokenError ? 'is-invalid' : '')}
+                                            placeholder="Enter your Figma access token" 
+                                            onChange={this.handleChangeToken}
+                                            required/>
                                         <input
-                                            className={'form-control auth-form-item ' + (this.state.projectIDError ? 'is-invalid' : '')}
-                                            placeholder="Enter your Figma project ID" onChange={this.handleChangeProjectID}/>
-                                        <button className='btn btn-primary auth-form-item'
+                                            className={'form-control mt-3 ' + (this.state.projectIDError ? 'is-invalid' : '')}
+                                            placeholder="Enter your Figma project ID" 
+                                            onChange={this.handleChangeProjectID}
+                                            required/>
+                                        <button className='btn btn-primary mt-3'
                                                 onClick={(e) => this.getFigmaProject()}>Submit
                                         </button>
-                                        <p className="auth-form-item error_message">*The token or the project ID is not correct,
+                                        <p className="mt-3 error_message">*The token or the project ID is not correct,
                                             please try again</p>
                                     </Tab>
                                     <Tab eventKey="Oauth2" title="Oauth 2.0 Authentication">
-                                        <p className="auth-form-item">Generate your Figma project access authorization with
-                                            Oauth 2.0 protocol, see the detailed information <a href="https://oauth.net/2/" target="_blank" rel="noopener noreferrer">here.</a></p>
-                                        <button className='btn btn-primary auth-form-item'
+                                        <h5>Please log into Figma to get project access authorisation</h5>
+                                        <p className="mt-2">You will be redirected to Figma's authentication page where you will be able to log in and get access to you project, using the Oauth 2.0 protocol. <a href="https://oauth.net/2/" target="_blank" rel="noopener noreferrer">Click here</a> to get more detailed information about this authentication method.</p>
+                                        <button className='btn btn-primary mt-2'
                                                 onClick={(e) => this.oauthRedirect()}>Authenticate with Oauth 2.0
                                         </button>
                                     </Tab>
