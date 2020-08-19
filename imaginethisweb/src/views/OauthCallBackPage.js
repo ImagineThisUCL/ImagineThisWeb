@@ -2,15 +2,14 @@ import React, {Component, Fragment,} from 'react'
 import Navigation from "../components/Navigation"
 import "../css/authenticatehomepage.css"
 import {Tab, Tabs} from 'react-bootstrap'
-import Cookies from "universal-cookie";
+import Cookies from "universal-cookie"
 import $ from 'jquery'
-import {Redirect} from "react-router-dom";
 
 export class OauthCallBackPage extends Component {
     constructor(props) {
-        super(props);
-        let currentURL = window.location.search;
-        let params = new URLSearchParams(currentURL);
+        super(props)
+        let currentURL = window.location.search
+        let params = new URLSearchParams(currentURL)
         let code = params.get('code')
         console.log(code)
         if (code === null) {
@@ -22,14 +21,14 @@ export class OauthCallBackPage extends Component {
             code: code,
             projectID: '',
             accessToken: undefined,
-            projectIDError: true
+            projectIDError: true,
         }
-        this.handleChangeProjectID = this.handleChangeProjectID.bind(this);
+        this.handleChangeProjectID = this.handleChangeProjectID.bind(this)
         this.getFigmaProject = this.getFigmaProject.bind(this)
     }
 
     componentDidMount() {
-        let accessToken = undefined;
+        let accessToken = undefined
         if (this.state.code !== undefined) {
             $.ajax({
                 type: "POST",
@@ -44,11 +43,11 @@ export class OauthCallBackPage extends Component {
                     'grant_type':'authorization_code'
                 },
                 success: function (data) {
-                    console.log(data);
-                    accessToken = data.access_token;
+                    console.log(data)
+                    accessToken = data.access_token
                 },
                 error: function (xhr, status, err) {
-                    console.log('error');
+                    console.log('error')
                     console.log(err)
                 }
             })
@@ -61,24 +60,24 @@ export class OauthCallBackPage extends Component {
     }
 
     handleChangeProjectID(event) {
-        this.setState({projectID: event.target.value});
+        this.setState({projectID: event.target.value})
     }
 
     validateForm() {
-        let error = false;
+        let error = false
         if (!(this.state.projectID.length > 0)) {
-            this.setState({projectIDError: true});
+            this.setState({projectIDError: true})
             error = true
         } else {
-            this.setState({projectIDError: false});
+            this.setState({projectIDError: false})
         }
         return error
     }
 
     getFigmaProject(){
         if(!this.validateForm()){
-            let result = false;
-            let responseData = null;
+            let result = false
+            let responseData = null
             $.ajax({
                 type: "GET",
                 url: 'http://localhost:8080/authToken',
@@ -90,16 +89,16 @@ export class OauthCallBackPage extends Component {
                     'authType': 'oauth2Token'
                 },
                 success: function (data){
-                    result = true;
-                    responseData = data;
+                    result = true
+                    responseData = data
                     console.log(data)
                 },
                 error: function (xhr, status, err) {
-                    console.log('error');
+                    console.log('error')
                 }
             })
             if(result){
-                const cookies = new Cookies();
+                const cookies = new Cookies()
                 cookies.set('accessToken', this.state.accessToken, {path: '/'})
                 cookies.set('projectID', this.state.projectID, {path: '/'})
                 cookies.set('authType', 'oauth2Token', {path: '/'})
@@ -111,7 +110,7 @@ export class OauthCallBackPage extends Component {
                     }
                 })
             }else{
-                $(".error_message").css('display','block');
+                $(".error_message").css('display','block')
             }
         }
 
