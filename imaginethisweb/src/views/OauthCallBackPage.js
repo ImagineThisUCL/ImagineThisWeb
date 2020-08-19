@@ -16,13 +16,13 @@ export class OauthCallBackPage extends Component {
             window.location.href = 'http://localhost:3000'
         }
 
-        let state = params.get('state')
         this.state = {
             code: code,
             projectID: '',
             accessToken: undefined,
-            projectIDError: true,
+            projectIDError: false,
         }
+        
         this.handleChangeProjectID = this.handleChangeProjectID.bind(this)
         this.getFigmaProject = this.getFigmaProject.bind(this)
     }
@@ -121,19 +121,31 @@ export class OauthCallBackPage extends Component {
         return (
             <Fragment>
                 <Navigation/>
-                <div className="auth-form">
-                    <Tabs defaultActiveKey="auth-token" id="uncontrolled-tab-example">
-                        <Tab eventKey="auth-token" title="Access Project with ID">
-                            <p className="auth-form-item">Please enter your Figma project ID, Project ID is the string between [file\] and [your project name] in your Figma project URL</p>
-                            <input
-                                className={'form-control auth-form-item ' + (this.state.projectIDError ? 'is-invalid' : '')}
-                                placeholder="Enter your Figma project ID" onChange={this.handleChangeProjectID}/>
-                            <button className='btn btn-primary auth-form-item'
-                                    onClick={(e) => this.getFigmaProject()}>Submit
-                            </button>
-                            <p className="auth-form-item error_message">*The project ID is not correct, please try again</p>
-                        </Tab>
-                    </Tabs>
+                <div className="container">
+                    <div className="row">
+                        <div className="col-12 col-lg-8 offset-lg-2 text-center">
+                            <h3 className="mt-5">You have successfully authenticated!</h3>
+                        </div>
+                    </div>
+                    <div className="row">
+                        <div className="col-12 col-lg-8 offset-lg-2">
+                            <div className="auth-form">
+                                <Tabs defaultActiveKey="auth-token" id="uncontrolled-tab-example">
+                                    <Tab eventKey="auth-token" title="Access Project with ID">
+                                        <h5>Please enter your Figma project ID</h5>
+                                        <p className="mt-2">Project ID is the string between [file\] and [your project name] in your Figma project URL</p>
+                                        <input
+                                            className={'form-control mt-4 ' + (this.state.projectIDError ? 'is-invalid' : '')}
+                                            placeholder="Enter your Figma project ID" onChange={this.handleChangeProjectID}/>
+                                        <button className='btn btn-primary mt-3'
+                                                onClick={(e) => this.getFigmaProject()}>Submit
+                                        </button>
+                                        <p className="mt-3 error_message">*The project ID is not correct, please try again</p>
+                                    </Tab>
+                                </Tabs>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </Fragment>
         )
