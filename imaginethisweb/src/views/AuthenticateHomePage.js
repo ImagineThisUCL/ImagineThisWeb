@@ -97,33 +97,37 @@ export class AuthenticateHomePage extends Component {
         return (
             <Fragment>
                 <Navigation/>
-                <div className="outline-box">
-                    <div className="auth-form">
-                        <Tabs defaultActiveKey="auth-token" id="uncontrolled-tab-example">
-                            <Tab eventKey="auth-token" title="Authenticate with Token">
-                                <p className="auth-form-item">Please enter your Figma access token and project ID,
-                                    see <a href="https://www.figma.com/developers/api#access-tokens" target="_blank" rel="noopener noreferrer">here</a> to learn how to generate your Figma access token and
-                                    project ID</p>
-                                <input
-                                    className={'form-control auth-form-item ' + (this.state.tokenError ? 'is-invalid' : '')}
-                                    placeholder="Enter your Figma access token" onChange={this.handleChangeToken}/>
-                                <input
-                                    className={'form-control auth-form-item ' + (this.state.projectIDError ? 'is-invalid' : '')}
-                                    placeholder="Enter your Figma project ID" onChange={this.handleChangeProjectID}/>
-                                <button className='btn btn-primary auth-form-item'
-                                        onClick={(e) => this.getFigmaProject()}>Submit
-                                </button>
-                                <p className="auth-form-item error_message">*The token or the project ID is not correct,
-                                    please try again</p>
-                            </Tab>
-                            <Tab eventKey="Oauth2" title="Oauth 2.0 Authentication">
-                                <p className="auth-form-item">Generate your Figma project access authorization with
-                                    Oauth 2.0 protocol, see the detailed information <a href="https://oauth.net/2/" target="_blank" rel="noopener noreferrer">here.</a></p>
-                                <button className='btn btn-primary auth-form-item'
-                                        onClick={(e) => this.oauthRedirect()}>Authenticate with Oauth 2.0
-                                </button>
-                            </Tab>
-                        </Tabs>
+                <div className="container">
+                    <div className="row">
+                        <div className="col-12 col-lg-8 offset-lg-2">
+                            <div className="auth-form">
+                                <Tabs defaultActiveKey="auth-token" id="uncontrolled-tab-example">
+                                    <Tab eventKey="auth-token" title="Authenticate with Token">
+                                        <p className="auth-form-item">Please enter your Figma access token and project ID,
+                                            see <a href="https://www.figma.com/developers/api#access-tokens" target="_blank" rel="noopener noreferrer">here</a> to learn how to generate your Figma access token and
+                                            project ID</p>
+                                        <input
+                                            className={'form-control auth-form-item ' + (this.state.tokenError ? 'is-invalid' : '')}
+                                            placeholder="Enter your Figma access token" onChange={this.handleChangeToken}/>
+                                        <input
+                                            className={'form-control auth-form-item ' + (this.state.projectIDError ? 'is-invalid' : '')}
+                                            placeholder="Enter your Figma project ID" onChange={this.handleChangeProjectID}/>
+                                        <button className='btn btn-primary auth-form-item'
+                                                onClick={(e) => this.getFigmaProject()}>Submit
+                                        </button>
+                                        <p className="auth-form-item error_message">*The token or the project ID is not correct,
+                                            please try again</p>
+                                    </Tab>
+                                    <Tab eventKey="Oauth2" title="Oauth 2.0 Authentication">
+                                        <p className="auth-form-item">Generate your Figma project access authorization with
+                                            Oauth 2.0 protocol, see the detailed information <a href="https://oauth.net/2/" target="_blank" rel="noopener noreferrer">here.</a></p>
+                                        <button className='btn btn-primary auth-form-item'
+                                                onClick={(e) => this.oauthRedirect()}>Authenticate with Oauth 2.0
+                                        </button>
+                                    </Tab>
+                                </Tabs>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </Fragment>
