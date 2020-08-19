@@ -102,8 +102,7 @@ export class AuthenticateHomePage extends Component {
                         <Tabs defaultActiveKey="auth-token" id="uncontrolled-tab-example">
                             <Tab eventKey="auth-token" title="Authenticate with Token">
                                 <p className="auth-form-item">Please enter your Figma access token and project ID,
-                                    see <a href="https://www.figma.com/developers/api#access-tokens"
-                                           target="_blank">here</a> to learn how to generate your Figma access token and
+                                    see <a href="https://www.figma.com/developers/api#access-tokens" target="_blank" rel="noopener noreferrer">here</a> to learn how to generate your Figma access token and
                                     project ID</p>
                                 <input
                                     className={'form-control auth-form-item ' + (this.state.tokenError ? 'is-invalid' : '')}
@@ -119,8 +118,7 @@ export class AuthenticateHomePage extends Component {
                             </Tab>
                             <Tab eventKey="Oauth2" title="Oauth 2.0 Authentication">
                                 <p className="auth-form-item">Generate your Figma project access authorization with
-                                    Oauth 2.0 protocol, see the detailed information <a href="https://oauth.net/2/"
-                                                                                        target="_blank">here.</a></p>
+                                    Oauth 2.0 protocol, see the detailed information <a href="https://oauth.net/2/" target="_blank" rel="noopener noreferrer">here.</a></p>
                                 <button className='btn btn-primary auth-form-item'
                                         onClick={(e) => this.oauthRedirect()}>Authenticate with Oauth 2.0
                                 </button>
