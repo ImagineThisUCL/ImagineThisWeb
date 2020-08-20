@@ -28,19 +28,12 @@ export class WireframesPage extends Component{
     }
 
     toConvertPage() {
-        // this.props.history.push({
-        //     pathname: '/convert',
-        //     state:{
-        //         selected:this.state.selected
-        //     }
-        // })
-        let responseData = undefined;
         $.ajax({
             type: "POST",
             url: 'http://localhost:8080/generatePage',
             contentType: 'application/json',
             dataType: "json",
-            async: false,
+            async: true,
             data: JSON.stringify({
                 'accessToken': this.state.accessToken,
                 'projectID': this.state.projectID,
@@ -48,16 +41,14 @@ export class WireframesPage extends Component{
                 'pageList': this.state.selected
             }),
             success: function (data) {
-                responseData = data;
+                if(data.isSuccess){
+                    window.location.href = 'http://localhost:8080/downloadFile?fileName='+data.fileName
+                }
             },
             error: function (xhr, status, err) {
-                console.log('error');
+                console.log('error')
             }
         })
-        if(responseData.isSuccess){
-            window.location.href = 'http://localhost:8080/downloadFile?fileName='+responseData.fileName;
-        }
-
     }
 
     addToSelected(name) {
@@ -142,7 +133,7 @@ export class WireframesPage extends Component{
                     <span className="bottom-actionbar__selected-text">Currently selected: {this.state.selected.length}</span>
                     <Button 
                         className='bottom-actionbar__button-convert mt-1' 
-                        onClick={(e) => this.toConvertPage()}
+                        onClick={() => this.toConvertPage()}
                         disabled={this.state.selected.length === 0}>
                         Convert to code
                     </Button>
