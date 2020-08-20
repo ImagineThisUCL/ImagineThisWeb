@@ -138,7 +138,7 @@ export class AuthenticateHomePage extends Component {
                                             <p className="mt-3 error_message">*The token or the project ID is not correct, please try again</p>
                                         }
                                         {this.state.loaderVisible &&
-                                            <div className="d-flex justify-content-center loader">
+                                            <div className="d-flex justify-content-center">
                                                 <Loader
                                                     type="Oval"
                                                     color="#00BFFF"
