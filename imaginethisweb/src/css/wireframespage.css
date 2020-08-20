@@ -24,3 +24,18 @@
     padding: 10px 20px;
     font-weight: bold;
 }
+
+.loader-background{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(25, 25, 25, 0.9);
+}
+
+.loader-wrapper {
+    padding: 40px 30px 20px;
+    background-color: white;
+    border-radius: 10px;
+}
