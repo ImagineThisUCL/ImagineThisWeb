@@ -89,6 +89,8 @@ export class AuthenticateHomePage extends Component {
                     this.setState({ 
                         loaderVisible: false,
                         errorMessageVisible: true,
+                        tokenError: true,
+                        projectIDError: true,
                     })
                 }.bind(this)
             })

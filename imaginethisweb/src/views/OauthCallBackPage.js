@@ -57,8 +57,6 @@ export class OauthCallBackPage extends Component {
         if(accessToken !== undefined){
             this.setState({accessToken: accessToken})
         }
-
-
     }
 
     handleChangeProjectID(event) {
@@ -115,12 +113,12 @@ export class OauthCallBackPage extends Component {
                     this.setState({ 
                         loaderVisible: false,
                         errorMessageVisible: true,
+                        projectIDError: true,
                     })
                 }.bind(this)
             })
         }
     }
-
 
     render() {
         return (
