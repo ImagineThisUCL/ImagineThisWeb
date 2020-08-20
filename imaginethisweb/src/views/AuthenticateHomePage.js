@@ -101,7 +101,7 @@ export class AuthenticateHomePage extends Component {
                 <div className="container">
                     <div className="row">
                         <div className="col-12 col-lg-8 offset-lg-2 text-center">
-                            <h3 className="mt-5">Welcome to ImagineThis wireframe converter</h3>
+                            <h3 className="mt-5">Welcome to ImagineThis Wireframe Converter</h3>
                             <p className="lead mt-3">
                                 This application allows you to load Figma wireframes and convert them into a react-native application template. Get started by authenticating with Figma below.
                             </p>
