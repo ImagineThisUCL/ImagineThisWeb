@@ -4,6 +4,8 @@ import "../css/authenticatehomepage.css"
 import {Tab, Tabs} from 'react-bootstrap'
 import Cookies from "universal-cookie"
 import $ from 'jquery'
+import "react-loader-spinner/dist/loader/css/react-spinner-loader.css"
+import Loader from 'react-loader-spinner'
 
 export class OauthCallBackPage extends Component {
     constructor(props) {
@@ -11,7 +13,6 @@ export class OauthCallBackPage extends Component {
         let currentURL = window.location.search
         let params = new URLSearchParams(currentURL)
         let code = params.get('code')
-        console.log(code)
         if (code === null) {
             window.location.href = 'http://localhost:3000'
         }
@@ -21,6 +22,8 @@ export class OauthCallBackPage extends Component {
             projectID: '',
             accessToken: undefined,
             projectIDError: false,
+            loaderVisible: false,
+            errorMessageVisible: false,
         }
         
         this.handleChangeProjectID = this.handleChangeProjectID.bind(this)
@@ -47,8 +50,7 @@ export class OauthCallBackPage extends Component {
                     accessToken = data.access_token
                 },
                 error: function (xhr, status, err) {
-                    console.log('error')
-                    console.log(err)
+                    console.log('error' + err)
                 }
             })
         }
@@ -76,44 +78,47 @@ export class OauthCallBackPage extends Component {
 
     getFigmaProject(){
         if(!this.validateForm()){
-            let result = false
-            let responseData = null
+            this.setState({ 
+                loaderVisible: true,
+                errorMessageVisible: false,
+            })
             $.ajax({
                 type: "GET",
                 url: 'http://localhost:8080/authToken',
                 dataType: "json",
-                async: false,
+                async: true,
                 data:{
                     'accessToken': this.state.accessToken,
                     'projectID': this.state.projectID,
                     'authType': 'oauth2Token'
                 },
                 success: function (data){
-                    result = true
-                    responseData = data
+                    this.setState({ 
+                        loaderVisible: false,
+                        errorMessageVisible: false,
+                    })
                     console.log(data)
-                },
+                    const cookies = new Cookies()
+                    cookies.set('accessToken', this.state.accessToken, {path: '/'})
+                    cookies.set('projectID', this.state.projectID, {path: '/'})
+                    cookies.set('authType', 'oauth2Token', {path: '/'})
+                    this.props.history.push({
+                        pathname: '/wireframes',
+                        state: {
+                            projectName: data.projectName,
+                            wireframeList: data.wireframeList,
+                        }
+                    })
+                }.bind(this),
                 error: function (xhr, status, err) {
-                    console.log('error')
-                }
+                    console.log('error' + err)
+                    this.setState({ 
+                        loaderVisible: false,
+                        errorMessageVisible: true,
+                    })
+                }.bind(this)
             })
-            if(result){
-                const cookies = new Cookies()
-                cookies.set('accessToken', this.state.accessToken, {path: '/'})
-                cookies.set('projectID', this.state.projectID, {path: '/'})
-                cookies.set('authType', 'oauth2Token', {path: '/'})
-                this.props.history.push({
-                    pathname: '/wireframes',
-                    state:{
-                        projectName:responseData.projectName,
-                        wireframeList: responseData.wireframeList
-                    }
-                })
-            }else{
-                $(".error_message").css('display','block')
-            }
         }
-
     }
 
 
@@ -140,7 +145,18 @@ export class OauthCallBackPage extends Component {
                                         <button className='btn btn-primary mt-3'
                                                 onClick={(e) => this.getFigmaProject()}>Submit
                                         </button>
-                                        <p className="mt-3 error_message">*The project ID is not correct, please try again</p>
+                                        {this.state.errorMessageVisible &&
+                                            <p className="mt-3 error_message">*The project ID is not correct, please try again</p>
+                                        }
+                                        {this.state.loaderVisible &&
+                                            <div className="d-flex justify-content-center loader">
+                                                <Loader
+                                                    type="Oval"
+                                                    color="#00BFFF"
+                                                    width={50}
+                                                    height={50}/>
+                                            </div>
+                                        }
                                     </Tab>
                                 </Tabs>
                             </div>

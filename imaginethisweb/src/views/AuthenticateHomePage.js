@@ -55,7 +55,7 @@ export class AuthenticateHomePage extends Component {
         if (!this.validateForm()) {
             this.setState({ 
                 loaderVisible: true,
-                errorMessageVisible: true,
+                errorMessageVisible: false,
             })
             $.ajax({
                 type: "GET",
