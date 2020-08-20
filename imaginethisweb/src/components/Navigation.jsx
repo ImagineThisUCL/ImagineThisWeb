@@ -13,7 +13,7 @@ class Navigation extends Component {
         return(
             <div className="guide-bar">
                 <Navbar collapseOnSelect expand="lg" className="navbar-style" variant="dark">
-                    <Navbar.Brand href="#home">
+                    <Navbar.Brand href="/">
                         <img
                           alt="NHS logo"
                           src={NHSLogo}

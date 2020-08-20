@@ -4,6 +4,8 @@ import "../css/authenticatehomepage.css"
 import {Tab, Tabs} from "react-bootstrap"
 import $ from 'jquery'
 import Cookies from 'universal-cookie'
+import "react-loader-spinner/dist/loader/css/react-spinner-loader.css"
+import Loader from 'react-loader-spinner'
 
 export class AuthenticateHomePage extends Component {
     constructor(props) {
@@ -13,6 +15,8 @@ export class AuthenticateHomePage extends Component {
             projectID: '',
             tokenError: false,
             projectIDError: false,
+            loaderVisible: false,
+            errorMessageVisible: false,
         }
 
         this.handleChangeProjectID = this.handleChangeProjectID.bind(this)
@@ -49,43 +53,45 @@ export class AuthenticateHomePage extends Component {
 
     getFigmaProject() {
         if (!this.validateForm()) {
-            let result = false
-            let responseData = null
+            this.setState({ 
+                loaderVisible: true,
+                errorMessageVisible: true,
+            })
             $.ajax({
                 type: "GET",
                 url: 'http://localhost:8080/authToken',
                 dataType: "json",
-                async: false,
+                async: true,
                 data: {
                     'accessToken': this.state.accessToken,
                     'projectID': this.state.projectID,
                     'authType': 'originalToken'
                 },
                 success: function (data) {
-                    result = true
-                    responseData = data
-                },
+                    this.setState({ 
+                        loaderVisible: false,
+                        errorMessageVisible: false,
+                    })
+                    const cookies = new Cookies()
+                    cookies.set('accessToken', this.state.accessToken, {path: '/'})
+                    cookies.set('projectID', this.state.projectID, {path: '/'})
+                    cookies.set('authType', 'originalToken', {path: '/'})
+                    this.props.history.push({
+                        pathname: '/wireframes',
+                        state:{
+                            projectName:data.projectName,
+                            wireframeList: data.wireframeList
+                        }
+                    })
+                }.bind(this),
                 error: function (xhr, status, err) {
                     console.log('error')
-                }
-
+                    this.setState({ 
+                        loaderVisible: false,
+                        errorMessageVisible: true,
+                    })
+                }.bind(this)
             })
-            if (result) {
-                $(".error_message").css('display', 'none')
-                const cookies = new Cookies()
-                cookies.set('accessToken', this.state.accessToken, {path: '/'})
-                cookies.set('projectID', this.state.projectID, {path: '/'})
-                cookies.set('authType', 'originalToken', {path: '/'})
-                this.props.history.push({
-                    pathname: '/wireframes',
-                    state:{
-                        projectName:responseData.projectName,
-                        wireframeList: responseData.wireframeList
-                    }
-                })
-            } else {
-                $(".error_message").css('display', 'block')
-            }
         }
     }
 
@@ -95,7 +101,6 @@ export class AuthenticateHomePage extends Component {
 
     render() {
         return (
-
             <Fragment>
                 <Navigation/>
                 <div className="container">
@@ -127,8 +132,18 @@ export class AuthenticateHomePage extends Component {
                                         <button className='btn btn-primary mt-3'
                                                 onClick={(e) => this.getFigmaProject()}>Submit
                                         </button>
-                                        <p className="mt-3 error_message">*The token or the project ID is not correct,
-                                            please try again</p>
+                                        {this.state.errorMessageVisible &&
+                                            <p className="mt-3 error_message">*The token or the project ID is not correct, please try again</p>
+                                        }
+                                        {this.state.loaderVisible &&
+                                            <div className="d-flex justify-content-center loader">
+                                                <Loader
+                                                    type="Oval"
+                                                    color="#00BFFF"
+                                                    width={50}
+                                                    height={50}/>
+                                            </div>
+                                        }
                                     </Tab>
                                     <Tab eventKey="Oauth2" title="Oauth 2.0 Authentication">
                                         <h5>Please log into Figma to get project access authorisation</h5>
