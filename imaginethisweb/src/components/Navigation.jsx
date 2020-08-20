@@ -28,8 +28,8 @@ class Navigation extends Component {
                     <Navbar.Toggle aria-controls="responsive-navbar-nav" />
                     <Navbar.Collapse id="responsive-navbar-nav">
                         <Nav className="mr-auto">
-                            <Nav.Link href="#features">Getting Started</Nav.Link>
-                            <Nav.Link href="#guidelines">Guidelines</Nav.Link>
+                            <Nav.Link href="https://imaginethisnhs.github.io/">Getting Started</Nav.Link>
+                            <Nav.Link href="https://imaginethisnhs.github.io/guidelines/introduction.html">Guidelines</Nav.Link>
                         </Nav>
                         <Nav>
                             <NavDropdown
