@@ -141,7 +141,7 @@ export class AuthenticateHomePage extends Component {
                                             <div className="d-flex justify-content-center">
                                                 <Loader
                                                     type="Oval"
-                                                    color="#00BFFF"
+                                                    color="#005EB8"
                                                     width={50}
                                                     height={50}/>
                                             </div>

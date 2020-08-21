@@ -166,7 +166,7 @@ export class WireframesPage extends Component{
                             <h4 className="mb-4">We are generating your App template</h4>
                             <Loader
                                 type="Watch"
-                                color="#00BFFF"
+                                color="#005EB8"
                                 width={50}
                                 height={50}/>
                             <p className="lead mt-4">This will take approximatelly {this.state.timeMinutes} minute(s) and {this.state.timeSeconds} seconds.</p>
