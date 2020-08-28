@@ -1,0 +1,11 @@
+#!/bin/sh
+
+echo "Switching to branch master"
+git checkout move-to-root
+
+echo "Building app"
+npm run build
+
+echo "Deploying files to server"
+rsync -avP build/ deploy@139.162.245.237:/var/www/139.162.245.237/
+echo "Deployment complete"
