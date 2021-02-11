@@ -2,9 +2,9 @@ import React from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Route, Switch, BrowserRouter as Router } from "react-router-dom";
 import { AuthenticateHomePage } from "./views/AuthenticateHomePage";
-import OauthCallBackPage from "./views/OauthCallBackPage";
-import { WireframesPage } from "./views/WireframesPage";
+import { OauthCallBackPage } from "./views/OauthCallBackPage";
 import { CommentsPage } from "./views/CommentsPage";
+import { WireframesPage } from "./views/WireframesPage";
 
 function App() {
   return (
