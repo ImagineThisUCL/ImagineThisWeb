@@ -7,9 +7,10 @@ import CommentList from './CommentList';
 import moment from 'moment';
 
 import api from '../../api';
-const NewCommentBox = (props) => {
+const CommentBox = (props) => {
   const [state, dispatch] = useContext(CommentContext);
   const [votedComments, setVotedComments] = useState({});
+  const [sortButtonText, setSortButtonText] = useState("Sort by Time")
   // get feedbacks
   useEffect(() => {
     // check if there is a user credential stored in localStorage
@@ -163,16 +164,14 @@ const NewCommentBox = (props) => {
   }
 
   const sortComments = e => {
-
-
     const allComments = state.feedbacks;
     let sortedArray = []
     if (e == "1") {
+      setSortButtonText("Sort By Time")
       sortedArray = allComments.sort(sortByTime('timestamp'));
     } else if (e == "2") {
+      setSortButtonText("Sort By Votes Count")
       sortedArray = allComments.sort(sortByVotes('votes'));
-    } else if (e == "3") {
-      sortedArray = allComments.sort(sortByTwoFields('upvotes', 'timestamp'));
     }
     setFeedbacks(sortedArray)
   }
@@ -199,13 +198,12 @@ const NewCommentBox = (props) => {
 
           <Dropdown style={{ top: "-40px", float: "right", height: "20px", position: "relative" }}>
             <Dropdown.Toggle variant="success" id="dropdown-basic">
-              Sort the Comments
+              {sortButtonText}
                 </Dropdown.Toggle>
 
             <Dropdown.Menu>
               <Dropdown.Item onClick={sortComments.bind(this, "1")}>Sort by Time</Dropdown.Item>
               <Dropdown.Item onClick={sortComments.bind(this, "2")}>Sort by Votes Count</Dropdown.Item>
-              <Dropdown.Item onClick={sortComments.bind(this, "3")}>Defualt</Dropdown.Item>
             </Dropdown.Menu>
 
           </Dropdown>
@@ -218,4 +216,4 @@ const NewCommentBox = (props) => {
   );
 }
 
-export default NewCommentBox;
+export default CommentBox;
