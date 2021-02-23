@@ -1,116 +1,92 @@
-import React, { Component } from "react";
+import { useContext, useState } from "react";
 import Card from "react-bootstrap/Card";
-import axios from "axios";
-import { LOCAL_HOST } from "../../consts";
+import { CommentContext } from "../../contexts/comment-context";
+import api from '../../api';
 
-class Comment extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      upvote: this.props.upvoted,
-      downvote: this.props.downvoted,
-      voteCount: this.props.votes ?? 0,
-      voteID: this.props.voteID ?? "",
-    };
-  }
+const Comment = (props) => {
+	const [state, dispatch] = useContext(CommentContext);
+	const [vote, setVote] = useState(props.votes ?? 0)
 
-  componentWillReceiveProps(nextProps) {
-    this.setState({ voteCount: nextProps.votes });
-  }
+	const voteFeedback = (voteCount, requestType) => {
+		const { projectID, feedbackID } = props;
+		let url = `/projects/${projectID}/feedback/${feedbackID}/vote`;
+		const data = { userId: state.userID, voteValue: voteCount };
 
-  voteFeedback(voteCount, requestType) {
-    // WGkLkaYQV9c4ZsvrpFXrwt
-    let userID;
-    // get userID from localStorage
-    if (localStorage.getItem("user") != null) {
-      userID = JSON.parse(localStorage.getItem("user")).userID;
-    } else {
-      return
-    }
-    const { projectId, feedbackId } = this.props;
-    let url = `${LOCAL_HOST}/api/v1/projects/${projectId}/feedback/${feedbackId}/vote`;
-    const data = { userId: userID, voteValue: voteCount };
+		url +=
+			requestType === "patch" || requestType === "delete"
+				? `/${props.voteID}`
+				: "";
 
-    url +=
-      requestType === "patch" || requestType === "delete"
-        ? `/${this.state.voteID}`
-        : "";
 
-    axios({
-      method: requestType,
-      url,
-      data,
-    })
-      .then((res) => {
-        if (res.data.voteId) {
-          this.setState({ voteID: res.data.voteId });
-        }
-      })
-      .catch((err) => console.log({ err }));
-  }
+		api({
+			method: requestType,
+			url,
+			data,
+		})
+			.then((res) => {
+				window.location.reload()
+			})
+			.catch((err) => console.log({ err }));
+	}
 
-  setVoteState(upvote, downvote, voteCount, requestType) {
-    let voteValue = voteCount - this.state.voteCount < 0 ? -1 : 1
-    this.setState(
-      { upvote, downvote, voteCount, voteID: this.state.voteID },
-      () => this.voteFeedback(voteValue, requestType)
-    );
-  }
+	const setVoteState = (upvote, downvote, voteCount, requestType) => {
+		let voteValue = voteCount - vote < 0 ? -1 : 1
+		voteFeedback(voteValue, requestType)
+	}
 
-  toggle = (vote) => {
-    const { upvote, downvote, voteCount } = this.state;
+	const toggle = (vote) => {
+		const upvote = props.upvoted
+		const downvote = props.downvoted
+		const voteCount = props.votes
 
-    if (vote === "upvote") {
-      if (!upvote && !downvote) {
-        this.setVoteState(!upvote, false, voteCount + 1, "post");
-      } else if (downvote && !upvote) {
-        this.setVoteState(!upvote, false, voteCount + 2, "patch");
-      } else {
-        this.setVoteState(false, false, voteCount - 1, "delete");
-      }
-    } else {
-      if (!downvote && !upvote) {
-        this.setVoteState(false, !downvote, voteCount - 1, "post");
-      } else if (!downvote && upvote) {
-        this.setVoteState(false, !downvote, voteCount - 2, "patch");
-      } else {
-        this.setVoteState(false, false, voteCount + 1, "delete");
-      }
-    }
-  };
+		if (vote === "upvote") {
+			if (!upvote && !downvote) {
+				setVoteState(!upvote, false, voteCount + 1, "post");
+			} else if (downvote && !upvote) {
+				setVoteState(!upvote, false, voteCount + 2, "patch");
+			} else {
+				setVoteState(false, false, voteCount - 1, "delete");
+			}
+		} else {
+			if (!downvote && !upvote) {
+				setVoteState(false, !downvote, voteCount - 1, "post");
+			} else if (!downvote && upvote) {
+				setVoteState(false, !downvote, voteCount - 2, "patch");
+			} else {
+				setVoteState(false, false, voteCount + 1, "delete");
+			}
+		}
+	};
 
-  render() {
-    return (
-      <div>
-        <br />
-        <Card bg="light">
-          <Card.Header>
-            <b> {this.props.userName} </b> - {this.props.created ?? "just now"}{" "}
-            <span>
-              <i
-                className={`icon icon-downvote ${
-                  this.state.downvote ? "voted" : null
-                }`}
-                onClick={() => this.toggle("downvote")}
-              ></i>
-            </span>
-            <span>{this.state.voteCount}</span>
-            <span>
-              <i
-                className={`icon icon-upvote ${
-                  this.state.upvote ? "voted" : null
-                }`}
-                onClick={() => this.toggle("upvote")}
-              ></i>
-            </span>
-          </Card.Header>
-          <Card.Body>
-            <Card.Text>{this.props.children}</Card.Text>
-          </Card.Body>
-        </Card>
-      </div>
-    );
-  }
+	return (
+		<div>
+			<br />
+			<Card bg="light">
+				<Card.Header>
+					<b> {props.userName} </b> - {props.created ?? "just now"}{" "}
+					<span>
+						<i
+							className={`icon icon-downvote ${props.downvoted ? "voted" : null
+								}`}
+							onClick={() => toggle("downvote")}
+						></i>
+					</span>
+					<span>{props.votes}</span>
+					<span>
+						<i
+							className={`icon icon-upvote ${props.upvoted ? "voted" : null
+								}`}
+							onClick={() => toggle("upvote")}
+						></i>
+					</span>
+				</Card.Header>
+				<Card.Body>
+					<Card.Text>{props.children}</Card.Text>
+				</Card.Body>
+			</Card>
+		</div>
+	);
+
 }
 
 export default Comment;

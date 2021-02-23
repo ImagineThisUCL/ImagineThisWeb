@@ -1,117 +1,83 @@
-import React, { Component } from "react";
-import ReactDOM from "react-dom";
+import { useContext, useRef } from "react";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import FormControl from "react-bootstrap/FormControl";
 import InputGroup from "react-bootstrap/InputGroup";
-import axios from "axios";
-import { v4 as uuidv4 } from "uuid";
-import { LOCAL_HOST } from "../../consts";
+import api from '../../api';
+import { CommentContext } from "../../contexts/comment-context";
 
-class CommentForm extends Component {
-  constructor(props) {
-    super(props);
-    this.state = { userID: this.props.userID ?? null, userName: this.props.userName ?? '' };
-  }
+const CommentForm = (props) => {
+  const [state, dispatch] = useContext(CommentContext);
+  const text = useRef()
 
-  async handleSubmit(e) {
-    e.preventDefault();
-    const userName = ReactDOM.findDOMNode(this.refs.userName).value.trim();
-    const text = ReactDOM.findDOMNode(this.refs.text).value.trim();
-    if (!text || !userName) {
-      alert("Please enter your name and comment");
-      return;
-    }
-    // check if the user has updated the user name
-    let storedUser = JSON.parse(localStorage.getItem('user'))
-    if (storedUser.userName != this.state.userName) {
-      // send a request to update the user name
-      await axios
-        .patch(`${LOCAL_HOST}/api/v1/users/${this.state.userID}`, {userId: this.state.userID, userName})
-        .then(res => {
-          console.log(res.data)
-          if (res.data.success) {
-            // update localStorage
-            storedUser.userName = this.state.userName
-            localStorage.setItem('user', JSON.stringify(storedUser))
-          }
-        })
-        .catch(err => console.log)
-    }
-    this.setComment(text, userName);
-  }
-
-  // eslint-disable-next-line class-methods-use-this
-  setComment(text, userName) {
-    // firstly get the project ID
+  const handleSubmit = (e) => {
+    // prevent default submission behaviour
+    e.preventDefault()
+    // post to the addNewFeedback endpoint
     const data = {
-      text,
-      userId: this.state.userID,
-      userName,
-    };
-
-    axios
-      .post(
-        `${LOCAL_HOST}/api/v1/projects/${this.props.projectID}/feedback`,
-        data
-      )
-      .then((res) => {
-        console.log(res);
-        this.props.onCommentSubmit(data);
-        // ReactDOM.findDOMNode(this.refs.userName).value = "";
-        ReactDOM.findDOMNode(this.refs.text).value = "";
-        ReactDOM.findDOMNode(this.refs.userName).focus();
+      text: text.current.value,
+      userId: state.userID,
+      userName: state.userName
+    }
+    // update user Credential stored in local Storage
+    localStorage.setItem('user', JSON.stringify({ userID: state.userID, userName: state.userName }))
+    api.post(`/projects/${state.projectID}/feedback`, data)
+      .then(res => {
+        // refresh current window
+        // this is the fastest way to update latest global states
+        window.location.reload()
       })
-      .catch((err) => {
-        console.error(err);
-      });
+      .catch(e => console.log)
   }
 
-  render() {
-    return (
-      <div className="commentForm panel panel-default">
-        <div className="panel-body">
+  return (
+    <div className="commentForm panel panel-default">
+      <div className="panel-body">
+        <br />
+        <Form className="form" onSubmit={handleSubmit}>
+          <InputGroup className="mb-3">
+            <InputGroup.Prepend>
+              <InputGroup.Text id="basic-addon1">@</InputGroup.Text>
+            </InputGroup.Prepend>
+            <FormControl
+              input
+              placeholder="Username"
+              aria-label="Username"
+              aria-describedby="basic-addon1"
+              // ref="userName"
+              className="form-control"
+              type="text"
+              value={state.userName}
+              onChange={(e) => {
+                dispatch({
+                  type: "SET_USER_NAME",
+                  payload: e.target.value
+                })
+                // this.setState({ userName: e.target.value });
+              }}
+            />
+          </InputGroup>
+
+          <InputGroup>
+            <FormControl
+              rows={4}
+              input
+              className="form-control"
+              type="text"
+              placeholder="Leave your feedback here.."
+              ref={text}
+              as="textarea"
+              aria-label="With textarea"
+            />
+          </InputGroup>
           <br />
-          <Form className="form" onSubmit={this.handleSubmit.bind(this)}>
-            <InputGroup className="mb-3">
-              <InputGroup.Prepend>
-                <InputGroup.Text id="basic-addon1">@</InputGroup.Text>
-              </InputGroup.Prepend>
-              <FormControl
-                input
-                placeholder="Username"
-                aria-label="Username"
-                aria-describedby="basic-addon1"
-                ref="userName"
-                className="form-control"
-                type="text"
-                value={this.state.userName}
-                onChange={(e) => {
-                  this.setState({ userName: e.target.value });
-                }}
-              />
-            </InputGroup>
-
-            <InputGroup>
-              <FormControl
-                rows={4}
-                input
-                className="form-control"
-                type="text"
-                placeholder="Leave your feedback here.."
-                ref="text"
-                as="textarea"
-                aria-label="With textarea"
-              />
-            </InputGroup>
-            <br />
-            <Button input variant="primary" type="submit" value="Post">
-              Post
-            </Button>
-          </Form>
-        </div>
+          <Button input variant="primary" type="submit" value="Post">
+            Post
+              </Button>
+        </Form>
       </div>
-    );
-  }
+    </div>
+  );
 }
+
 export default CommentForm;
