@@ -7,6 +7,8 @@ import CommentBox from "../components/comments/CommentBox";
 import QRTab from "../components/project-tabs/QRTab";
 import DownloadTab from "../components/project-tabs/DownloadTab";
 import { LOCAL_HOST } from "../consts";
+import { CommentContextProvider } from "../contexts/comment-context";
+import api from "../api";
 import "../css/projectpage.css";
 
 export class ProjectPage extends Component {
@@ -20,8 +22,8 @@ export class ProjectPage extends Component {
   }
 
   getProjectDetails() {
-    axios
-      .get(`${LOCAL_HOST}/api/v1/projects/${this.state.projectID}`)
+    api
+      .get(`/projects/${this.state.projectID}`)
       .then((res) => {
         this.setState({ projectName: res.data.projectName });
       });
@@ -40,7 +42,9 @@ export class ProjectPage extends Component {
           </div>
           <Tabs defaultActiveKey="feedback" id="uncontrolled-tab-example">
             <Tab eventKey="feedback" title="Feedback">
-              <CommentBox />
+              <CommentContextProvider>
+                <CommentBox projectID={this.state.projectID}/>
+              </CommentContextProvider>
             </Tab>
             <Tab eventKey="run" title="Run App">
               <QRTab />
