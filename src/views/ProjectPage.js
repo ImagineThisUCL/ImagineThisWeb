@@ -36,7 +36,7 @@ export class ProjectPage extends Component {
         <div className="container">
           <div className="feedback-header">
             <h3>
-              Project:
+              Project:{' '}
               { this.state.projectName }
             </h3>
           </div>

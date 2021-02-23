@@ -67,8 +67,9 @@ const Comment = (props) => {
           </b>
           {' '}
           -
+		  {' '}
           {props.created ?? "just now"}
-          {" "}
+          {' '}
           <span>
             <i
               className={`icon icon-downvote ${props.downvoted ? "voted" : null

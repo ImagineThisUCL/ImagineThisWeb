@@ -8,11 +8,9 @@ import Form from "react-bootstrap/Form";
 import FormControl from "react-bootstrap/FormControl";
 import InputGroup from "react-bootstrap/InputGroup";
 import Button from "react-bootstrap/Button";
-import axios from "axios";
 import Logo from "../assets/ImagineThisLogo.png";
 import Search from "../assets/Search.svg";
-
-const host = "http://localhost:8080";
+import api from '../api';
 
 /*
  * Top navigation containing links to all external pages
@@ -32,14 +30,19 @@ class Navigation extends Component {
 
   handleSubmit(event) {
     const { value } = this.state;
-    const url = `${host}/api/v1/projects/${value}/feedback`;
-    axios
+    // check if project ID exist
+    const url = `/projects/${value}`;
+    api
       .get(url)
       .then((res) => {
         console.log(res.data);
         window.location.href = `/comments/${value}`;
       })
       .catch((error) => {
+        if (error.response.status === 404) {
+          // project Not found, pop an alert
+          window.alert("Project ID not found!")
+        }
         console.log({ error });
       });
     event.preventDefault();
