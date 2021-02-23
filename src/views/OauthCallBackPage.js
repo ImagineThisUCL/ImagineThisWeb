@@ -108,7 +108,7 @@ export class OauthCallBackPage extends Component {
             pathname: "/wireframes",
             state: {
               projectName: data.projectName,
-              wireframeList: data.wireframeList,
+              wireframeList: data.wireframes,
             },
           });
         }.bind(this),

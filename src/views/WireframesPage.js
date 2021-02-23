@@ -91,19 +91,16 @@ export class WireframesPage extends Component {
     });
     $.ajax({
       type: "POST",
-      url: `${BACKEND_ADDRESS}/generatePage`,
+      url: `${BACKEND_ADDRESS}/api/v1/projects/${this.state.projectID}/build?authType=${this.state.authType}&accessToken=${this.state.accessToken}`,
       contentType: "application/json",
       dataType: "json",
       async: true,
       data: JSON.stringify({
-        accessToken: this.state.accessToken,
-        projectID: this.state.projectID,
-        authType: this.state.authType,
-        pageList: this.state.selected,
+        wireframeList: this.state.selected
       }),
       success: function (data) {
-        if (data.isSuccess) {
-          window.location.href = `${BACKEND_ADDRESS}/downloadFile?fileName=${data.fileName}`;
+        if (data.success) {
+          window.location.href = `${BACKEND_ADDRESS}/api/v1/projects/${this.state.projectID}/download`;
         }
         this.setState({ loaderVisible: false });
       }.bind(this),

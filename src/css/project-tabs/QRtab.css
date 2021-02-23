@@ -1,0 +1,38 @@
+.container{
+    overflow: hidden;
+}
+#QRdiv{
+    float:left;
+    position:relative;
+    /*left:4%;*/
+    margin-top: 6%;
+    margin-left: 50px;
+    width: 200px;
+    height: 200px;
+    display: block;
+}
+.QRCode{
+    height: 200px;
+    width: 200px;
+    margin: 0px;
+}
+#instructionDiv{
+    float: left;
+    position: relative;
+    /*left: 0.5%;*/
+    /*width: 80%;*/
+}
+.QRTab_Title{
+    text-align: center;
+}
+p{
+    font-size: 18px;
+}
+ol{
+    font-size: 18px;
+    text-align: justify;
+}
+.clear{
+    clear: both;
+}
+

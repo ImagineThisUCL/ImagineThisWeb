@@ -51,12 +51,11 @@ export class AuthenticateHomePage extends Component {
       });
       $.ajax({
         type: "GET",
-        url: `${BACKEND_ADDRESS}/authToken`,
+        url: `${BACKEND_ADDRESS}/api/v1/projects/${this.state.projectID}/wireframes`,
         dataType: "json",
         async: true,
         data: {
           accessToken: this.state.accessToken,
-          projectID: this.state.projectID,
           authType: "originalToken",
         },
         success: function (data) {
@@ -72,7 +71,7 @@ export class AuthenticateHomePage extends Component {
             pathname: "/wireframes",
             state: {
               projectName: data.projectName,
-              wireframeList: data.wireframeList,
+              wireframeList: data.wireframes
             },
           });
         }.bind(this),
@@ -114,7 +113,7 @@ export class AuthenticateHomePage extends Component {
    * (Redirect to Figma's OAuth API)
    */
   oauthRedirect() {
-    this.window.location.href = `https://www.figma.com/oauth?client_id=${CLIENT_ID}&redirect_uri=${DOMAIN}/auth&scope=file_read&state=get_token&response_type=code`;
+    window.location.href = `https://www.figma.com/oauth?client_id=${CLIENT_ID}&redirect_uri=${DOMAIN}/auth&scope=file_read&state=get_token&response_type=code`;
   }
 
   render() {
@@ -125,12 +124,12 @@ export class AuthenticateHomePage extends Component {
           <div className="row">
             <div className="col-12 col-lg-8 offset-lg-2 text-center">
               <h3 className="mt-5">
-                Welcome to ImagineThis Wireframe Converter
+                Welcome to ImagineThis
               </h3>
               <p className="lead mt-3">
-                This application allows you to load Figma wireframes and convert
-                them into a react-native application template. Get started by
-                authenticating with Figma below.
+                ImagineThis allows you to <strong>build</strong> and
+                <strong> run</strong> mobile applications from Figma
+                prototypes. Get started by authenticating with Figma below.
               </p>
             </div>
           </div>
