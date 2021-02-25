@@ -36,14 +36,15 @@ export class ProjectPage extends Component {
         <div className="container">
           <div className="feedback-header">
             <h3>
-              Project:{' '}
+              Project:
+              {' '}
               { this.state.projectName }
             </h3>
           </div>
           <Tabs defaultActiveKey="feedback" id="uncontrolled-tab-example">
             <Tab eventKey="feedback" title="Feedback">
               <CommentContextProvider>
-                <CommentBox projectID={this.state.projectID}/>
+                <CommentBox projectID={this.state.projectID} />
               </CommentContextProvider>
             </Tab>
             <Tab eventKey="run" title="Run App">

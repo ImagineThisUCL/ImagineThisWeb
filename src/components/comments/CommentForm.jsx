@@ -8,27 +8,28 @@ import { CommentContext } from "../../contexts/comment-context";
 
 const CommentForm = (props) => {
   const [state, dispatch] = useContext(CommentContext);
-  const text = useRef()
+  const text = useRef();
 
   const handleSubmit = (e) => {
     // prevent default submission behaviour
-    e.preventDefault()
+    e.preventDefault();
     // post to the addNewFeedback endpoint
     const data = {
       text: text.current.value,
       userId: state.userID,
-      userName: state.userName
-    }
+      userName: state.userName,
+    };
     // update user Credential stored in local Storage
-    localStorage.setItem('user', JSON.stringify({ userID: state.userID, userName: state.userName }))
-    api.post(`/projects/${state.projectID}/feedback`, data)
-      .then(res => {
+    localStorage.setItem('user', JSON.stringify({ userID: state.userID, userName: state.userName }));
+    api
+      .post(`/projects/${state.projectID}/feedback`, data)
+      .then((res) => {
         // refresh current window
         // this is the fastest way to update latest global states
-        window.location.reload()
+        window.location.reload();
       })
-      .catch(e => console.log)
-  }
+      .catch((e) => console.log);
+  };
 
   return (
     <div className="commentForm panel panel-default">
@@ -51,8 +52,8 @@ const CommentForm = (props) => {
               onChange={(e) => {
                 dispatch({
                   type: "SET_USER_NAME",
-                  payload: e.target.value
-                })
+                  payload: e.target.value,
+                });
                 // this.setState({ userName: e.target.value });
               }}
             />
@@ -73,11 +74,11 @@ const CommentForm = (props) => {
           <br />
           <Button input variant="primary" type="submit" value="Post">
             Post
-              </Button>
+          </Button>
         </Form>
       </div>
     </div>
   );
-}
+};
 
 export default CommentForm;

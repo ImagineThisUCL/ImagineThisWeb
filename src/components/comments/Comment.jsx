@@ -67,7 +67,7 @@ const Comment = (props) => {
           </b>
           {' '}
           -
-		  {' '}
+          {' '}
           {props.created ?? "just now"}
           {' '}
           <span>
