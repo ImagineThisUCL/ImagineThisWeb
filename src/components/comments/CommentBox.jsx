@@ -1,16 +1,13 @@
 import React, { useContext, useEffect, useState } from "react";
-import Badge from "react-bootstrap/Badge";
 import Dropdown from "react-bootstrap/Dropdown";
-import moment from 'moment';
 import { CommentContext } from "../../contexts/comment-context";
 import CommentForm from './CommentForm';
 import CommentList from './CommentList';
 
-import api from '../../api';
+import { feedbackAPI, userAPI } from "../../api";
 
 const CommentBox = (props) => {
   const [state, dispatch] = useContext(CommentContext);
-  const [votedComments, setVotedComments] = useState({});
   const [sortButtonText, setSortButtonText] = useState("Sort by Time");
   // get feedbacks
   useEffect(() => {
@@ -27,15 +24,13 @@ const CommentBox = (props) => {
       userID = storedUser.userID;
       userName = storedUser.userName;
       // get all votes for the existing user
-      api
-        .get(`/users/${userID}/votes`)
+      userAPI('GET', userID)
         .then((res) => {
           if (res.status == 200 && res.data.length > 0) {
             const voted = {};
             res.data.map((vote) => {
               voted[vote.feedbackId] = { voteID: vote.voteId, voteValue: vote.voteValue };
             });
-            setVotedComments(voted);
             dispatch({
               type: "SET_VOTED_COMMENTS",
               payload: voted,
@@ -48,11 +43,11 @@ const CommentBox = (props) => {
     }
     // check if there's any vote associated to the current user
     // this.getVotesForUser()
-    api
-      .get(`/projects/${props.projectID}/feedback`)
+    feedbackAPI('GET', props.projectID)
       .then((res) => {
+        const parsed = res.data;
         // process the feedbacks and update it
-        const parsed = parseFeedbacks(res.data);
+        // const parsed = parseFeedbacks(res.data);
         // sort comments by time by default
         parsed.sort(sortByTime('timestamp'));
         dispatch({
@@ -68,43 +63,13 @@ const CommentBox = (props) => {
       .catch((e) => console.log);
   }, []);
 
-  const parseFeedbacks = (data) => {
-    const feedbackList = [];
-    data.forEach((feedback) => {
-      const {
-        userId,
-        projectId,
-        feedbackId,
-        downvotes,
-        text,
-        timestamp,
-        upvotes,
-        userName,
-      } = feedback;
-
-      const parsedFeedback = {
-        userID: userId,
-        projectID: projectId,
-        feedbackID: feedbackId,
-        userName,
-        created: moment(timestamp).format("DD/MM/YY HH:mm"),
-        timestamp,
-        text,
-        votes: upvotes - downvotes,
-      };
-      feedbackList.push(parsedFeedback);
-    });
-    return feedbackList;
-  };
-
   const createAnonymousUser = async () => {
     // create an anonymous user
     console.log('Generating new user credential');
     const userName = 'Anonymous User';
     const userID = uuidv4();
     // send a request to the server
-    await api
-      .post(`/users`, { userId: userID, userName })
+    await userAPI('POST', undefined, { userId: userID, userName })
       .then((res) => {
         if (res.data.success) {
           console.log('Setting up local Storage');
@@ -144,17 +109,6 @@ const CommentBox = (props) => {
    */
   const sortByVotes = (field) => function (a, b) {
     return b[field] - a[field];
-  };
-
-  /**
-   * Sorts the feedback based on two attribute, including the time and voting count.
-   */
-  const sortByTwoFields = (field1, field2) => function (a, b) {
-    if (a[field1] == b[field1]) {
-      return b[field2] - a[field2];
-    }
-
-    return b[field1] - a[field1];
   };
 
   const sortComments = (e) => {

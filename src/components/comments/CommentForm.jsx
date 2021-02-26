@@ -3,7 +3,7 @@ import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import FormControl from "react-bootstrap/FormControl";
 import InputGroup from "react-bootstrap/InputGroup";
-import api from '../../api';
+import { feedbackAPI } from "../../api";
 import { CommentContext } from "../../contexts/comment-context";
 
 const CommentForm = (props) => {
@@ -21,12 +21,18 @@ const CommentForm = (props) => {
     };
     // update user Credential stored in local Storage
     localStorage.setItem('user', JSON.stringify({ userID: state.userID, userName: state.userName }));
-    api
-      .post(`/projects/${state.projectID}/feedback`, data)
+    feedbackAPI('POST', state.projectID, undefined, data)
       .then((res) => {
-        // refresh current window
-        // this is the fastest way to update latest global states
-        window.location.reload();
+        // get feedbacks again
+        feedbackAPI('GET', state.projectID)
+          .then((resp) => {
+            const parsed = resp.data.sort((a, b) => (b.timestamp - a.timestamp));
+            dispatch({
+              type: "SET_FEEDBACKS",
+              payload: parsed,
+            });
+          })
+          .catch(console.log);
       })
       .catch((e) => console.log);
   };

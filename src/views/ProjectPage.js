@@ -1,14 +1,12 @@
 import React, { Component } from "react";
 import Tabs from "react-bootstrap/Tabs";
 import Tab from "react-bootstrap/Tab";
-import axios from "axios";
 import Navigation from "../components/Navigation";
 import CommentBox from "../components/comments/CommentBox";
 import QRTab from "../components/project-tabs/QRTab";
 import DownloadTab from "../components/project-tabs/DownloadTab";
-import { LOCAL_HOST } from "../consts";
 import { CommentContextProvider } from "../contexts/comment-context";
-import api from "../api";
+import { projectAPI } from "../api";
 import "../css/projectpage.css";
 
 export class ProjectPage extends Component {
@@ -22,8 +20,7 @@ export class ProjectPage extends Component {
   }
 
   getProjectDetails() {
-    api
-      .get(`/projects/${this.state.projectID}`)
+    projectAPI('GET')
       .then((res) => {
         this.setState({ projectName: res.data.projectName });
       });

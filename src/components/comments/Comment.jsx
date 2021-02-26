@@ -1,35 +1,55 @@
 import { useContext, useState } from "react";
 import Card from "react-bootstrap/Card";
 import { CommentContext } from "../../contexts/comment-context";
-import api from '../../api';
+import { feedbackAPI, userAPI, voteAPI } from "../../api";
 
 const Comment = (props) => {
   const [state, dispatch] = useContext(CommentContext);
-  const [vote, setVote] = useState(props.votes ?? 0);
 
   const voteFeedback = (voteCount, requestType) => {
     const { projectID, feedbackID } = props;
     let url = `/projects/${projectID}/feedback/${feedbackID}/vote`;
     const data = { userId: state.userID, voteValue: voteCount };
 
-    url
-			+= requestType === "patch" || requestType === "delete"
-			  ? `/${props.voteID}`
-			  : "";
-
-    api({
-      method: requestType,
-      url,
-      data,
-    })
+    voteAPI(requestType, projectID, feedbackID, props.voteID, data)
       .then((res) => {
-        window.location.reload();
+        // window.location.reload();
+        // get all feedbacks again
+        feedbackAPI('GET', state.projectID)
+          .then((resp) => {
+            const parsed = resp.data.sort((a, b) => (b.timestamp - a.timestamp));
+            dispatch({
+              type: "SET_FEEDBACKS",
+              payload: parsed,
+            });
+          })
+          .catch(console.log);
+        // get user votes again
+        userAPI('GET', state.userID)
+          .then((resp) => {
+            const voted = {};
+            resp.data.map((vote) => {
+              voted[vote.feedbackId] = { voteID: vote.voteId, voteValue: vote.voteValue };
+            });
+            dispatch({
+              type: "SET_VOTED_COMMENTS",
+              payload: voted,
+            });
+          })
+          .catch(e => {
+            console.log(e);
+            // reset user voted comments
+            dispatch({
+              type: "SET_VOTED_COMMENTS",
+              payload: {},
+            });
+          });
       })
       .catch((err) => console.log({ err }));
   };
 
   const setVoteState = (upvote, downvote, voteCount, requestType) => {
-    const voteValue = voteCount - vote < 0 ? -1 : 1;
+    const voteValue = voteCount - props.votes < 0 ? -1 : 1;
     voteFeedback(voteValue, requestType);
   };
 
