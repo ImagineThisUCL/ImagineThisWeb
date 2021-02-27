@@ -26,13 +26,37 @@
     text-align: center;
 }
 p{
-    font-size: 18px;
+    /*font-size: 18px;*/
 }
-ol{
+.PC_ordered_list{
     font-size: 18px;
     text-align: justify;
 }
 .clear{
     clear: both;
 }
+
+.Mobile_QR{
+    text-align: center;
+}
+
+.Mobile_QRTab_Title{
+    text-align: center;
+    /*left: 100%;*/
+    font-size: 20px;
+}
+.Mobile_instructionDiv{
+    width: 100%;
+    /*display: block;*/
+}
+.mobile_ordered_list{
+    font-size: 12px;
+    padding-left: 8%;
+}
+
+.mobile_ordered_p{
+    text-align: center;
+}
+
+
 
