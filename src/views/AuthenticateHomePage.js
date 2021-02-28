@@ -9,7 +9,8 @@ import { v4 as uuidv4 } from "uuid";
 import Navigation from "../components/Navigation";
 import { DOMAIN, BACKEND_ADDRESS, CLIENT_ID } from "../consts";
 import { CommentContext } from "../contexts/comment-context";
-import { userAPI, api } from "../api";
+import { userAPI } from "../api";
+import api from "../api";
 
 /*
  * A view handling all authentication
