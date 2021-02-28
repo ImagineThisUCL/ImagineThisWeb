@@ -11,36 +11,23 @@ const CommentBox = (props) => {
   const [sortButtonText, setSortButtonText] = useState("Sort by Time");
   // get feedbacks
   useEffect(() => {
-    // check if there is a user credential stored in localStorage
-    // if not, create a new user credential
-    const storedUserStr = localStorage.getItem('user');
-    let userID = "";
-    let userName = "";
-    if (storedUserStr === null) {
-      createAnonymousUser();
-    } else {
-      // get user credential from localStorage
-      const storedUser = JSON.parse(storedUserStr);
-      userID = storedUser.userID;
-      userName = storedUser.userName;
-      // get all votes for the existing user
-      userAPI('GET', userID)
-        .then((res) => {
-          if (res.status == 200 && res.data.length > 0) {
-            const voted = {};
-            res.data.map((vote) => {
-              voted[vote.feedbackId] = { voteID: vote.voteId, voteValue: vote.voteValue };
-            });
-            dispatch({
-              type: "SET_VOTED_COMMENTS",
-              payload: voted,
-            });
-          }
-        })
-        .catch((e) => {
-          console.log(e);
-        });
-    }
+    // get all votes for the existing user
+    userAPI('GET', state.userID)
+      .then((res) => {
+        if (res.status == 200 && res.data.length > 0) {
+          const voted = {};
+          res.data.map((vote) => {
+            voted[vote.feedbackId] = { voteID: vote.voteId, voteValue: vote.voteValue };
+          });
+          dispatch({
+            type: "SET_VOTED_COMMENTS",
+            payload: voted,
+          });
+        }
+      })
+      .catch((e) => {
+        console.log(e);
+      });
     // check if there's any vote associated to the current user
     // this.getVotesForUser()
     feedbackAPI('GET', props.projectID)
@@ -63,38 +50,11 @@ const CommentBox = (props) => {
       .catch((e) => console.log);
   }, []);
 
-  const createAnonymousUser = async () => {
-    // create an anonymous user
-    console.log('Generating new user credential');
-    const userName = 'Anonymous User';
-    const userID = uuidv4();
-    // send a request to the server
-    await userAPI('POST', undefined, { userId: userID, userName })
-      .then((res) => {
-        if (res.data.success) {
-          console.log('Setting up local Storage');
-          // update localStorage
-          localStorage.setItem('user', JSON.stringify({ userID, userName }));
-          dispatch({
-            type: "SET_USER_NAME",
-            payload: userName,
-          }, {
-            type: "SET_USER_ID",
-            payload: userID,
-          });
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
-
   const setFeedbacks = (feedbacks) => {
     dispatch({
       type: "SET_FEEDBACKS",
       payload: feedbacks,
     });
-    // console.log(state.feedbacks)
   };
 
   /**
