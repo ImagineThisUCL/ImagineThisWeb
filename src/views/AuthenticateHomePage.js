@@ -1,6 +1,6 @@
-import React, { Component, Fragment } from "react";
+import React, { Component } from "react";
 import "../css/authenticatehomepage.css";
-import { Tab, Tabs } from "react-bootstrap";
+import { Tab, Tabs, Alert } from "react-bootstrap";
 import $ from "jquery";
 import Cookies from "universal-cookie";
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
@@ -16,13 +16,13 @@ export class AuthenticateHomePage extends Component {
     super(props);
     this.state = {
       accessToken: "",
-      projectID: "",
+      projectID: this.props.projectID ?? "",
       tokenError: false,
       projectIDError: false,
       loaderVisible: false,
       errorMessageVisible: false,
+      projectExists: this.props.projectExists,
     };
-
     this.handleChangeProjectID = this.handleChangeProjectID.bind(this);
     this.handleChangeToken = this.handleChangeToken.bind(this);
     this.getFigmaProject = this.getFigmaProject.bind(this);
@@ -71,7 +71,7 @@ export class AuthenticateHomePage extends Component {
             pathname: "/wireframes",
             state: {
               projectName: data.projectName,
-              wireframeList: data.wireframes
+              wireframeList: data.wireframes,
             },
           });
         }.bind(this),
@@ -117,19 +117,34 @@ export class AuthenticateHomePage extends Component {
   }
 
   render() {
+    const {
+      projectID,
+      projectExists,
+      tokenError,
+      projectIDError,
+      errorMessageVisible,
+      loaderVisible,
+    } = this.state;
+
     return (
       <>
         <Navigation />
+        {/* Alert */}
+        {projectExists === false && (
+          <Alert variant="danger">
+            The project with ID{" "}
+            <Alert.Link href="/notfound">{projectID}</Alert.Link> is not in our
+            database. Please make sure you have converted it first.
+          </Alert>
+        )}
         <div className="container">
           <div className="row">
             <div className="col-12 col-lg-8 offset-lg-2 text-center">
-              <h3 className="mt-5">
-                Welcome to ImagineThis
-              </h3>
+              <h3 className="mt-5">Welcome to ImagineThis</h3>
               <p className="lead mt-3">
                 ImagineThis allows you to <strong>build</strong> and
-                <strong> run</strong> mobile applications from Figma
-                prototypes. Get started by authenticating with Figma below.
+                <strong> run</strong> mobile applications from Figma prototypes.
+                Get started by authenticating with Figma below.
               </p>
             </div>
           </div>
@@ -149,14 +164,13 @@ export class AuthenticateHomePage extends Component {
                         rel="noopener noreferrer"
                       >
                         Click here
-                      </a>
-                      {" "}
+                      </a>{" "}
                       to learn how to generate your Figma access token and
                       project ID
                     </p>
                     <input
                       className={`form-control mt-4 ${
-                        this.state.tokenError ? "is-invalid" : ""
+                        tokenError ? "is-invalid" : ""
                       }`}
                       placeholder="Enter your Figma access token"
                       onChange={this.handleChangeToken}
@@ -164,7 +178,7 @@ export class AuthenticateHomePage extends Component {
                     />
                     <input
                       className={`form-control mt-3 ${
-                        this.state.projectIDError ? "is-invalid" : ""
+                        projectIDError ? "is-invalid" : ""
                       }`}
                       placeholder="Enter your Figma project ID"
                       onChange={this.handleChangeProjectID}
@@ -176,13 +190,13 @@ export class AuthenticateHomePage extends Component {
                     >
                       Submit
                     </button>
-                    {this.state.errorMessageVisible && (
+                    {errorMessageVisible && (
                       <p className="mt-3 error_message">
                         *The token or the project ID is not correct, please try
                         again
                       </p>
                     )}
-                    {this.state.loaderVisible && (
+                    {loaderVisible && (
                       <div className="d-flex justify-content-center">
                         <Loader
                           type="Oval"
@@ -207,8 +221,7 @@ export class AuthenticateHomePage extends Component {
                         rel="noopener noreferrer"
                       >
                         Click here
-                      </a>
-                      {" "}
+                      </a>{" "}
                       to get more detailed information about this authentication
                       method.
                     </p>

@@ -5,6 +5,7 @@ import { AuthenticateHomePage } from "./views/AuthenticateHomePage";
 import { OauthCallBackPage } from "./views/OauthCallBackPage";
 import { WireframesPage } from "./views/WireframesPage";
 import { ProjectPage } from "./views/ProjectPage";
+import NotFoundPage from "./views/NotFoundPage";
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
           <Route exact path="/auth" component={OauthCallBackPage} />
           <Route exact path="/wireframes" component={WireframesPage} />
           <Route exact path="/comments/:projectID" component={ProjectPage} />
+          <Route path="/" component={NotFoundPage} />
         </Switch>
       </div>
     </Router>
