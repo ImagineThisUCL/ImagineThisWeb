@@ -62,13 +62,11 @@ class Navigation extends Component {
       })
       .catch((error) => {
         console.log({ error });
-        if (error.response.status === 404) {
-          this.setState({projectExists: false})
-          dispatch({
-            type: "SET_PROJECT_EXISTS",
-            payload: false,
-          })
-        }
+        this.setState({projectExists: false})
+        dispatch({
+          type: "SET_PROJECT_EXISTS",
+          payload: false,
+        })
       });
     dispatch({
       type: "SET_PROJECT_ID",
