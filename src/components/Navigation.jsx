@@ -12,18 +12,19 @@ import Logo from "../assets/ImagineThisLogo.png";
 import Search from "../assets/Search.svg";
 import api from '../api';
 import { useHistory } from "react-router";
+import { FeedbackContext } from "../contexts/feedback-context";
+import { Link } from "react-router-dom";
 
 /*
  * Top navigation containing links to all external pages
  */
 class Navigation extends Component {
+  static contextType = FeedbackContext;
   constructor(props) {
     super(props);
     this.state = { value: "" };
-
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
-    console.log(this.props);
   }
 
   handleChange(event) {
@@ -32,25 +33,45 @@ class Navigation extends Component {
 
   handleSubmit(event) {
     const { value } = this.state;
+    const [context, dispatch] = this.context;
     // check if project ID exist
     const url = `/projects/${value}`;
     api
       .get(url)
       .then((res) => {
-        // window.location.href = `/project/${value}`;
+        dispatch({
+          type: "SET_PROJECT_EXISTS",
+          payload: true,
+        })
+        // set project name
+        dispatch({
+          type: "SET_PROJECT_NAME",
+          payload: res.data.projectName,
+        })
         this.props.history.push(`/project/${value}`);
+        // window.location.href = `/project/${value}`;
       })
       .catch((error) => {
         console.log({ error });
         if (error.response.status === 404) {
           // project Not found, pop an alert
-          window.alert("Project ID not found!")
+          // window.alert("Project ID not found!")
+          dispatch({
+            type: "SET_PROJECT_EXISTS",
+            payload: false,
+          })
         }
       });
+    dispatch({
+      type: "SET_PROJECT_ID",
+      payload: value,
+    })
     event.preventDefault();
   }
 
   render() {
+    // const context = this.context;
+    // console.log(context);
     return (
       <div className="guide-bar">
         <Navbar
@@ -59,7 +80,7 @@ class Navigation extends Component {
           className="navbar-style"
           variant="dark"
         >
-          <Navbar.Brand href="/" className="navbar-brand">
+          <Navbar.Brand as={Link} to="/" className="navbar-brand">
             <img
               alt="Imagine This logo"
               src={Logo}

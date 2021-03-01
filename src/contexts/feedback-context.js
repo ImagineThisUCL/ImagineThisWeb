@@ -3,12 +3,13 @@ import React, { useReducer, createContext } from 'react';
 const FeedbackContext = createContext();
 
 const globalState = {
+  projectName: "",
   projectID: "",
   userID: "",
   userName: "",
   feedbacks: [],
-  votes: [],
   votedFeedbacks: {},
+  projectExists: true,
 };
 
 const reducer = (state, action) => {
@@ -23,6 +24,11 @@ const reducer = (state, action) => {
         ...state,
         projectID: action.payload,
       };
+    case "SET_PROJECT_NAME":
+      return {
+        ...state,
+        projectName: action.payload,
+      }
     case "SET_USER_ID":
       return {
         ...state,
@@ -43,20 +49,15 @@ const reducer = (state, action) => {
         ...state,
         feedbacks: [...state.feedbacks, action.payload],
       };
-    case "SET_VOTES":
-      return {
-        ...state,
-        votes: action.payload,
-      };
-    case "ADD_VOTE":
-      return {
-        ...state,
-        votes: [...state.feedbacks, action.payload],
-      };
     case "SET_VOTED_FEEDBACKS":
       return {
         ...state,
         votedFeedbacks: action.payload,
+      };
+    case "SET_PROJECT_EXISTS":
+      return {
+        ...state,
+        projectExists: action.payload,
       };
     default:
       throw new Error("Operation not supported.");
