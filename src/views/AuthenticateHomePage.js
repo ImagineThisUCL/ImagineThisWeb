@@ -1,6 +1,6 @@
 import React, { Component, Fragment, useContext, useEffect, useState } from "react";
 import "../css/authenticatehomepage.css";
-import { Tab, Tabs } from "react-bootstrap";
+import { Tab, Tabs, Alert } from "react-bootstrap";
 import Cookies from "universal-cookie";
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
 import Loader from "react-loader-spinner";
@@ -156,6 +156,14 @@ const AuthenticateHomePage = (props) => {
     <>
       {/* pass the router as props to sub component */}
       <Navigation history={useHistory()}/>
+      {/* Alert */}
+      {state.projectExists === false && (
+        <Alert variant="danger">
+          The project with ID{" "}
+          <Alert.Link href="/notfound">{state.projectID}</Alert.Link> is not in our
+          database. Please make sure you have converted it first.
+        </Alert>
+      )}
       <div className="container">
         <div className="row">
           <div className="col-12 col-lg-8 offset-lg-2 text-center">

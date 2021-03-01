@@ -7,39 +7,39 @@ import QRTab from "../components/project-tabs/QRTab";
 import DownloadTab from "../components/project-tabs/DownloadTab";
 import { projectAPI } from "../api";
 import "../css/projectpage.css";
+import { FeedbackContext } from "../contexts/feedback-context";
 
 export default class ProjectPage extends Component {
+  static contextType = FeedbackContext;
   constructor(props) {
     super(props);
-    this.state = { projectID: this.props.match.params.projectID, projectName: "" };
+    this.state = {
+      projectID: this.props.match.params.projectID,
+      projectName: "",
+    };
   }
 
   componentDidMount() {
-    this.getProjectDetails();
-  }
-
-  getProjectDetails() {
-    projectAPI('GET')
-      .then((res) => {
-        this.setState({ projectName: res.data.projectName });
-      });
+    const [state, dispatch] = this.context;
+    this.setState({projectName: state.projectName})
   }
 
   render() {
     return (
       <>
         <Navigation />
+
         <div className="container">
           <div className="feedback-header">
             <h3>
               Project:
               {' '}
-              { this.state.projectName }
+              {this.state.projectName}
             </h3>
           </div>
           <Tabs defaultActiveKey="feedback" id="uncontrolled-tab-example">
             <Tab eventKey="feedback" title="Feedback">
-              <FeedbackTab projectID={this.state.projectID} projectName={this.state.projectName} />
+              <FeedbackTab projectID={this.state.projectID}/>
             </Tab>
             <Tab eventKey="run" title="Run App">
               <QRTab />
@@ -51,5 +51,18 @@ export default class ProjectPage extends Component {
         </div>
       </>
     );
+    // if (projectExists) {
+    // }
+
+    // this.props.history.push('/', {projectExists, projectID});
+    // return null;
+    // return (
+    //   <>
+    //     <AuthenticateHomePage
+    //       projectExists={projectExists}
+    //       projectID={projectID}
+    //     />
+    //   </>
+    // );
   }
 }
