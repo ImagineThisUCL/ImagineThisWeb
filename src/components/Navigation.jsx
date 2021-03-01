@@ -11,6 +11,7 @@ import Button from "react-bootstrap/Button";
 import Logo from "../assets/ImagineThisLogo.png";
 import Search from "../assets/Search.svg";
 import api from '../api';
+import { useHistory } from "react-router";
 
 /*
  * Top navigation containing links to all external pages
@@ -22,6 +23,7 @@ class Navigation extends Component {
 
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    console.log(this.props);
   }
 
   handleChange(event) {
@@ -35,15 +37,15 @@ class Navigation extends Component {
     api
       .get(url)
       .then((res) => {
-        console.log(res.data);
-        window.location.href = `/comments/${value}`;
+        // window.location.href = `/project/${value}`;
+        this.props.history.push(`/project/${value}`);
       })
       .catch((error) => {
+        console.log({ error });
         if (error.response.status === 404) {
           // project Not found, pop an alert
           window.alert("Project ID not found!")
         }
-        console.log({ error });
       });
     event.preventDefault();
   }
