@@ -70,6 +70,10 @@ class Navigation extends Component {
           })
         }
       });
+    dispatch({
+      type: "SET_PROJECT_ID",
+      payload: value,
+    })
     event.preventDefault();
   }
 
