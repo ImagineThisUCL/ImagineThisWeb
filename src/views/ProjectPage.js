@@ -14,20 +14,30 @@ export default class ProjectPage extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      projectID: this.props.match.params.projectID,
+      // projectID: this.props.match.params.projectID,
+      projectID: "",
       projectName: "",
     };
   }
 
   componentDidMount() {
-    const [state, dispatch] = this.context;
-    this.setState({projectName: state.projectName})
+    // init local state with global state
+    const [context, dispatch] = this.context;
+    this.setState({projectID: context.projectID, projectName: context.projectName})
+  }
+
+  componentDidUpdate(prevProps) {
+    const [context, dispatch] = this.context;
+    if (this.props.match.params.projectID !== prevProps.match.params.projectID) {
+      // the url param mismatched, update the local state
+      this.setState({projectID: this.props.match.params.projectID, projectName: context.projectName})
+    }
   }
 
   render() {
     return (
       <>
-        <Navigation />
+        <Navigation history={this.props.history} />
 
         <div className="container">
           <div className="feedback-header">
@@ -51,18 +61,5 @@ export default class ProjectPage extends Component {
         </div>
       </>
     );
-    // if (projectExists) {
-    // }
-
-    // this.props.history.push('/', {projectExists, projectID});
-    // return null;
-    // return (
-    //   <>
-    //     <AuthenticateHomePage
-    //       projectExists={projectExists}
-    //       projectID={projectID}
-    //     />
-    //   </>
-    // );
   }
 }

@@ -7,7 +7,7 @@ export default class NotFoundPage extends Component {
   render() {
     return (
       <>
-        <Navigation />
+        <Navigation history={this.props.history} />
 
         <div className="container">
           <div className="row justify-content-center">

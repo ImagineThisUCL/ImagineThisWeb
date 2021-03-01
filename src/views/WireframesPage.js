@@ -26,6 +26,7 @@ export class WireframesPage extends Component {
     this.state = {
       projectName: this.props.history.location.state.projectName,
       wireframeList: this.props.history.location.state.wireframeList,
+      userID: this.props.history.location.state.userID,
       projectID: cookie.get("projectID"),
       accessToken: cookie.get("accessToken"),
       authType: cookie.get("authType"),
@@ -96,7 +97,8 @@ export class WireframesPage extends Component {
       dataType: "json",
       async: true,
       data: JSON.stringify({
-        wireframeList: this.state.selected
+        wireframeList: this.state.selected,
+        userId: this.state.userID,
       }),
       success: function (data) {
         if (data.success) {
@@ -141,7 +143,7 @@ export class WireframesPage extends Component {
   render() {
     return (
       <>
-        <Navigation />
+        <Navigation history={this.props.history}/>
         <div className="container-fluid container--margin-bottom">
           <div className="row">
             <div className="col-12 d-flex flex-column align-items-center">

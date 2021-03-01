@@ -25,23 +25,6 @@ const AuthenticateHomePage = (props) => {
 
   const [state, dispatch] = useContext(FeedbackContext);
 
-  useEffect(() => {
-    // check if there is a user credential stored in localStorage
-    // if not, create a new user credential
-    const storedUserStr = localStorage.getItem('user');
-    let userID = "";
-    let userName = "";
-    if (storedUserStr === null) {
-      createAnonymousUser();
-    } else {
-      // get user credential from localStorage
-      const storedUser = JSON.parse(storedUserStr);
-      userID = storedUser.userID;
-      userName = storedUser.userName;
-      setUserCredential(userName, userID);
-    }
-  }, []);
-
   /*
    * OnChange handlers to store input field contents in state
    */
@@ -77,6 +60,7 @@ const AuthenticateHomePage = (props) => {
             state: {
               projectName: res.data.projectName,
               wireframeList: res.data.wireframes,
+              userID: state.userID,
             },
           });
         })
@@ -118,52 +102,18 @@ const AuthenticateHomePage = (props) => {
     window.location.href = `https://www.figma.com/oauth?client_id=${CLIENT_ID}&redirect_uri=${DOMAIN}/auth&scope=file_read&state=get_token&response_type=code`;
   }
 
-  /**
-   * Create an user credential when the user first enters the homepage
-   */
-  const createAnonymousUser = async () => {
-    // create an anonymous user
-    console.log('Generating new user credential');
-    const userName = 'Anonymous User';
-    const userID = uuidv4();
-    // send a request to the server
-    await userAPI('POST', undefined, { userId: userID, userName })
-      .then((res) => {
-        if (res.data.success) {
-          console.log('Setting up local Storage');
-          // update localStorage
-          localStorage.setItem('user', JSON.stringify({ userID, userName }));
-          setUserCredential(userName, userID);
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
-
-  const setUserCredential = (userName, userID) => {
-    dispatch({
-      type: "SET_USER_NAME",
-      payload: userName,
-    });
-    dispatch({
-      type: "SET_USER_ID",
-      payload: userID,
-    })
-  }
-
   return (
     <>
       {/* pass the router as props to sub component */}
-      <Navigation history={useHistory()}/>
+      <Navigation history={useHistory()} />
       {/* Alert */}
-      {state.projectExists === false && (
+      {/* {state.projectExists === false && (
         <Alert variant="danger">
           The project with ID{" "}
           <Alert.Link href="/notfound">{state.projectID}</Alert.Link> is not in our
           database. Please make sure you have converted it first.
         </Alert>
-      )}
+      )} */}
       <div className="container">
         <div className="row">
           <div className="col-12 col-lg-8 offset-lg-2 text-center">

@@ -48,7 +48,7 @@ const FeedbackTab = (props) => {
         });
       })
       .catch((e) => console.log);
-  }, []);
+  }, [props.projectID]); // when props.projectID changed, execute the callback function in useEffect()
 
   const setFeedbacks = (feedbacks) => {
     dispatch({
