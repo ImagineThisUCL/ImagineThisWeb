@@ -1,9 +1,9 @@
 /** deployed version */
-export const DOMAIN = "http://88.80.186.99";
+// export const DOMAIN = "http://88.80.186.99";
+export const DOMAIN = process.env.REACT_APP_DOMAIN;
 export const CLIENT_ID = "ZSjQ3iai2GyJYhAXq1fI2D";
 export const CLIENT_SECRET = "64wrt6gPjuFdsnZCtpKj29ZQcjpvVN";
-export const BACKEND_ADDRESS = process.env.NODE_ENV === 'production' ? 
-                                "http://213.168.248.64:8080" : "http://localhost:8080";
+export const BACKEND_ADDRESS = process.env.REACT_APP_BACKEND_ADDRESS;
 export const LOCAL_HOST = "http://localhost:8080";
 
 /** submission version */
