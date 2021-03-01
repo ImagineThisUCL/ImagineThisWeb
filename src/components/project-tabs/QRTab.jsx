@@ -4,6 +4,7 @@ import "../../css/project-tabs/QRtab.css";
 import "react-bootstrap";
 
 class QRTab extends Component {
+  // eslint-disable-next-line no-useless-constructor
   constructor(props) {
     super(props);
   }
@@ -49,24 +50,46 @@ class QRTab extends Component {
           {/* this is the instruction for the mobile device */}
           <div className="Mobile_instructionDiv">
             <h3 className="Mobile_QRTab_Title">QR Code Using Instructions</h3>
-            <p className="mobile_ordered_p mobile_ordered_list">To run the prototype your device, please do the following steps:</p>
-            <ol className="mobile_ordered_list">
+            <p className="mobile_ordered_p mobile_ordered_list ">
+              To run the prototype your device, please do the following steps:
+              <br />
+              <br />
+            </p>
+            <p className="mobile_ordered_p mobile_ordered_list mobile_device_name">Android User:</p>
 
+            <ol className="mobile_ordered_list">
 
               <li>
                 Install the "
                 <a href="https://expo.io/tools">Expo Go</a>
                 " on app on your mobile device
               </li>
-              <li>Then click on the QR Code on button of this page. This should open the expo app</li>
+              <li>Click the QR code at the bottom of the screen. This should open the expo app</li>
               <li>The prototype will then begin running on your device</li>
-              <p>
-                <br />
-                Please check for other related details：
-                {' '}
-                <a href="https://expo.io/">expo.io</a>
-              </p>
+              {/* <p> */}
+              {/*  <br /> */}
+              {/*  Please check for other related details： */}
+              {/*  {' '} */}
+              {/*  <a href="https://expo.io/">expo.io</a> */}
+              {/* </p> */}
             </ol>
+            <p className="mobile_ordered_p mobile_ordered_list mobile_device_name">IOS User:</p>
+            <ol className="mobile_ordered_list">
+
+              <li>
+                Install the "
+                <a href="https://expo.io/tools">Expo Go</a>
+                " on app on your mobile device
+              </li>
+              <li>Using the phone's camera to scan the QR code. This should open the expo app</li>
+              <li>The prototype will then begin running on your device</li>
+            </ol>
+            <p className="mobile_ordered_p mobile_ordered_list">
+
+              Please check for other related details：
+              {' '}
+              <a href="https://expo.io/">expo.io</a>
+            </p>
           </div>
           <div className="Mobile_QR">
             <a href="exp://exp.host/@imaginethis/testing-application-imaginethis">
