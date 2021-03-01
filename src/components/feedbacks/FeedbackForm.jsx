@@ -8,6 +8,7 @@ import { FeedbackContext } from "../../contexts/feedback-context";
 
 const FeedbackForm = (props) => {
   const [state, dispatch] = useContext(FeedbackContext);
+  // useRef is the react hooks style ref property
   const text = useRef();
 
   const handleSubmit = (e) => {

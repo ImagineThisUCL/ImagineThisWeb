@@ -156,6 +156,7 @@ const AuthenticateHomePage = (props) => {
 
   return (
     <>
+      {/* pass the router as props to sub component */}
       <Navigation history={useHistory()}/>
       <div className="container">
         <div className="row">

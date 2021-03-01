@@ -7,7 +7,9 @@ import FeedbackList from '../feedbacks/FeedbackList';
 import { feedbackAPI, userAPI } from "../../api";
 
 const FeedbackTab = (props) => {
+  // useContext can be used to access global context and dispatch changes
   const [state, dispatch] = useContext(FeedbackContext);
+  // useState is the react hooks style of this.state. The parameter is the initial value of this state
   const [sortButtonText, setSortButtonText] = useState("Sort by Time");
   // get feedbacks
   useEffect(() => {

@@ -8,8 +8,10 @@ import ProjectPage from "./views/ProjectPage";
 import { FeedbackContextProvider } from "./contexts/feedback-context";
 
 function App() {
+  // FeedbackContextProvider provides the whole project with shared, centralised states
   return (
     <FeedbackContextProvider>
+      {/* since the global context will be shared across different pages, the router should be a hash router */}
       <HashRouter>
         <div className="App">
           <Switch>

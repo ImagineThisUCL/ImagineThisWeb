@@ -117,6 +117,10 @@ const voteAPI = (method, projectID, feedbackID, voteID, data) => {
   throw new Error('Unsupported');
 };
 
+/**
+ * This function will parse the original response data
+ * @param {original response data} data 
+ */
 const parseFeedbacks = (data) => {
   const feedbackList = [];
   data.forEach((feedback) => {
