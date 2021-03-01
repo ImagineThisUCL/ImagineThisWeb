@@ -1,16 +1,16 @@
 import React, { Component, Fragment, useContext, useEffect, useState } from "react";
 import "../css/authenticatehomepage.css";
 import { Tab, Tabs } from "react-bootstrap";
-import $ from "jquery";
 import Cookies from "universal-cookie";
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
 import Loader from "react-loader-spinner";
 import { v4 as uuidv4 } from "uuid";
 import Navigation from "../components/Navigation";
 import { DOMAIN, BACKEND_ADDRESS, CLIENT_ID } from "../consts";
-import { CommentContext } from "../contexts/comment-context";
+import { FeedbackContext } from "../contexts/feedback-context";
 import { userAPI } from "../api";
 import api from "../api";
+import { useHistory } from "react-router";
 
 /*
  * A view handling all authentication
@@ -23,7 +23,7 @@ const AuthenticateHomePage = (props) => {
   const [loaderVisible, setLoaderVisible] = useState(false);
   const [errorMessageVisible, setErrorMessageVisible] = useState(false);
 
-  const [state, dispatch] = useContext(CommentContext);
+  const [state, dispatch] = useContext(FeedbackContext);
 
   useEffect(() => {
     // check if there is a user credential stored in localStorage
@@ -147,15 +147,16 @@ const AuthenticateHomePage = (props) => {
     dispatch({
       type: "SET_USER_NAME",
       payload: userName,
-    }, {
+    });
+    dispatch({
       type: "SET_USER_ID",
       payload: userID,
-    });
+    })
   }
 
   return (
     <>
-      <Navigation />
+      <Navigation history={useHistory()}/>
       <div className="container">
         <div className="row">
           <div className="col-12 col-lg-8 offset-lg-2 text-center">

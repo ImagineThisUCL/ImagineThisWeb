@@ -1,19 +1,19 @@
 import React, { useReducer, createContext } from 'react';
 
-const CommentContext = createContext();
+const FeedbackContext = createContext();
 
-const commentState = {
+const globalState = {
   projectID: "",
   userID: "",
   userName: "",
   feedbacks: [],
   votes: [],
-  votedComments: {},
+  votedFeedbacks: {},
 };
 
 const reducer = (state, action) => {
   switch (action.type) {
-    case "INIT_COMMENT_STATE":
+    case "INIT_GLOBAL_STATE":
       return {
         ...state,
         ...action.payload,
@@ -53,19 +53,19 @@ const reducer = (state, action) => {
         ...state,
         votes: [...state.feedbacks, action.payload],
       };
-    case "SET_VOTED_COMMENTS":
+    case "SET_VOTED_FEEDBACKS":
       return {
         ...state,
-        votedComments: action.payload,
+        votedFeedbacks: action.payload,
       };
     default:
       throw new Error("Operation not supported.");
   }
 };
 
-const CommentContextProvider = (props) => {
-  const [state, dispatch] = useReducer(reducer, commentState);
-  return <CommentContext.Provider value={[state, dispatch]}>{props.children}</CommentContext.Provider>;
+const FeedbackContextProvider = (props) => {
+  const [state, dispatch] = useReducer(reducer, globalState);
+  return <FeedbackContext.Provider value={[state, dispatch]}>{props.children}</FeedbackContext.Provider>;
 };
 
-export { CommentContext, CommentContextProvider };
+export { FeedbackContext, FeedbackContextProvider };

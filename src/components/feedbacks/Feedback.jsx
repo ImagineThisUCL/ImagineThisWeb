@@ -1,14 +1,13 @@
 import { useContext, useState } from "react";
 import Card from "react-bootstrap/Card";
-import { CommentContext } from "../../contexts/comment-context";
+import { FeedbackContext } from "../../contexts/feedback-context";
 import { feedbackAPI, userAPI, voteAPI } from "../../api";
 
-const Comment = (props) => {
-  const [state, dispatch] = useContext(CommentContext);
+const Feedback = (props) => {
+  const [state, dispatch] = useContext(FeedbackContext);
 
   const voteFeedback = (voteCount, requestType) => {
     const { projectID, feedbackID } = props;
-    let url = `/projects/${projectID}/feedback/${feedbackID}/vote`;
     const data = { userId: state.userID, voteValue: voteCount };
 
     voteAPI(requestType, projectID, feedbackID, props.voteID, data)
@@ -32,7 +31,7 @@ const Comment = (props) => {
               voted[vote.feedbackId] = { voteID: vote.voteId, voteValue: vote.voteValue };
             });
             dispatch({
-              type: "SET_VOTED_COMMENTS",
+              type: "SET_VOTED_FEEDBACKS",
               payload: voted,
             });
           })
@@ -40,7 +39,7 @@ const Comment = (props) => {
             console.log(e);
             // reset user voted comments
             dispatch({
-              type: "SET_VOTED_COMMENTS",
+              type: "SET_VOTED_FEEDBACKS",
               payload: {},
             });
           });
@@ -114,4 +113,4 @@ const Comment = (props) => {
   );
 };
 
-export default Comment;
+export default Feedback;

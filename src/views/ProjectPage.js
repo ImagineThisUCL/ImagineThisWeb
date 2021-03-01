@@ -2,14 +2,13 @@ import React, { Component } from "react";
 import Tabs from "react-bootstrap/Tabs";
 import Tab from "react-bootstrap/Tab";
 import Navigation from "../components/Navigation";
-import CommentBox from "../components/comments/CommentBox";
+import FeedbackTab from "../components/project-tabs/FeedbackTab";
 import QRTab from "../components/project-tabs/QRTab";
 import DownloadTab from "../components/project-tabs/DownloadTab";
-import { CommentContextProvider } from "../contexts/comment-context";
 import { projectAPI } from "../api";
 import "../css/projectpage.css";
 
-export class ProjectPage extends Component {
+export default class ProjectPage extends Component {
   constructor(props) {
     super(props);
     this.state = { projectID: this.props.match.params.projectID, projectName: "" };
@@ -40,9 +39,7 @@ export class ProjectPage extends Component {
           </div>
           <Tabs defaultActiveKey="feedback" id="uncontrolled-tab-example">
             <Tab eventKey="feedback" title="Feedback">
-              <CommentContextProvider>
-                <CommentBox projectID={this.state.projectID} />
-              </CommentContextProvider>
+              <FeedbackTab projectID={this.state.projectID} projectName={this.state.projectName} />
             </Tab>
             <Tab eventKey="run" title="Run App">
               <QRTab />
@@ -56,5 +53,3 @@ export class ProjectPage extends Component {
     );
   }
 }
-
-export default ProjectPage;

@@ -1,13 +1,13 @@
 import React, { useContext, useEffect, useState } from "react";
 import Dropdown from "react-bootstrap/Dropdown";
-import { CommentContext } from "../../contexts/comment-context";
-import CommentForm from './CommentForm';
-import CommentList from './CommentList';
+import { FeedbackContext } from "../../contexts/feedback-context";
+import FeedbackForm from '../feedbacks/FeedbackForm';
+import FeedbackList from '../feedbacks/FeedbackList';
 
 import { feedbackAPI, userAPI } from "../../api";
 
-const CommentBox = (props) => {
-  const [state, dispatch] = useContext(CommentContext);
+const FeedbackTab = (props) => {
+  const [state, dispatch] = useContext(FeedbackContext);
   const [sortButtonText, setSortButtonText] = useState("Sort by Time");
   // get feedbacks
   useEffect(() => {
@@ -20,7 +20,7 @@ const CommentBox = (props) => {
             voted[vote.feedbackId] = { voteID: vote.voteId, voteValue: vote.voteValue };
           });
           dispatch({
-            type: "SET_VOTED_COMMENTS",
+            type: "SET_VOTED_FEEDBACKS",
             payload: voted,
           });
         }
@@ -35,14 +35,12 @@ const CommentBox = (props) => {
         const parsed = res.data;
         // process the feedbacks and update it
         // const parsed = parseFeedbacks(res.data);
-        // sort comments by time by default
+        // sort feedbacks by time by default
         parsed.sort(sortByTime('timestamp'));
         dispatch({
-          type: "INIT_COMMENT_STATE",
+          type: "INIT_GLOBAL_STATE",
           payload: {
             projectID: props.projectID,
-            userID,
-            userName,
             feedbacks: parsed,
           },
         });
@@ -71,7 +69,7 @@ const CommentBox = (props) => {
     return b[field] - a[field];
   };
 
-  const sortComments = (e) => {
+  const sortFeedbacks = (e) => {
     const allComments = state.feedbacks;
     let sortedArray = [];
     if (e == "1") {
@@ -87,7 +85,7 @@ const CommentBox = (props) => {
   return (
     <div className="container">
       <br />
-      <div className="commentBox panel panel-default">
+      <div className="FeedbackTab panel panel-default">
         <div className="panel-body">
           <h4>Post Feedback / Vote on Feedback</h4>
           <span>
@@ -96,7 +94,7 @@ const CommentBox = (props) => {
           </span>
           <hr />
 
-          <CommentForm
+          <FeedbackForm
             // onCommentSubmit={handleCommentSubmit}
             projectID={state.projectID}
             userID={state.userID}
@@ -112,17 +110,17 @@ const CommentBox = (props) => {
             </Dropdown.Toggle>
 
             <Dropdown.Menu>
-              <Dropdown.Item onClick={sortComments.bind(this, "1")}>Sort by Time</Dropdown.Item>
-              <Dropdown.Item onClick={sortComments.bind(this, "2")}>Sort by Votes Count</Dropdown.Item>
+              <Dropdown.Item onClick={sortFeedbacks.bind(this, "1")}>Sort by Time</Dropdown.Item>
+              <Dropdown.Item onClick={sortFeedbacks.bind(this, "2")}>Sort by Votes Count</Dropdown.Item>
             </Dropdown.Menu>
 
           </Dropdown>
 
-          <CommentList comments={state.feedbacks} votedComments={state.votedComments ?? {}} />
+          <FeedbackList votedFeedbacks={state.votedFeedbacks ?? {}} />
         </div>
       </div>
     </div>
   );
 };
 
-export default CommentBox;
+export default FeedbackTab;

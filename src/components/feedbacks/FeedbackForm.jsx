@@ -4,10 +4,10 @@ import Form from "react-bootstrap/Form";
 import FormControl from "react-bootstrap/FormControl";
 import InputGroup from "react-bootstrap/InputGroup";
 import { feedbackAPI } from "../../api";
-import { CommentContext } from "../../contexts/comment-context";
+import { FeedbackContext } from "../../contexts/feedback-context";
 
-const CommentForm = (props) => {
-  const [state, dispatch] = useContext(CommentContext);
+const FeedbackForm = (props) => {
+  const [state, dispatch] = useContext(FeedbackContext);
   const text = useRef();
 
   const handleSubmit = (e) => {
@@ -38,7 +38,7 @@ const CommentForm = (props) => {
   };
 
   return (
-    <div className="commentForm panel panel-default">
+    <div className="feedbackForm panel panel-default">
       <div className="panel-body">
         <br />
         <Form className="form" onSubmit={handleSubmit}>
@@ -51,7 +51,6 @@ const CommentForm = (props) => {
               placeholder="Username"
               aria-label="Username"
               aria-describedby="basic-addon1"
-              // ref="userName"
               className="form-control"
               type="text"
               value={state.userName}
@@ -60,7 +59,6 @@ const CommentForm = (props) => {
                   type: "SET_USER_NAME",
                   payload: e.target.value,
                 });
-                // this.setState({ userName: e.target.value });
               }}
             />
           </InputGroup>
@@ -87,4 +85,4 @@ const CommentForm = (props) => {
   );
 };
 
-export default CommentForm;
+export default FeedbackForm;
