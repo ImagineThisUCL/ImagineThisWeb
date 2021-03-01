@@ -14,6 +14,7 @@ import api from '../api';
 import { useHistory } from "react-router";
 import { FeedbackContext } from "../contexts/feedback-context";
 import { Link } from "react-router-dom";
+import { Alert } from "react-bootstrap";
 
 /*
  * Top navigation containing links to all external pages
@@ -22,15 +23,18 @@ class Navigation extends Component {
   static contextType = FeedbackContext;
   constructor(props) {
     super(props);
-    this.state = { value: "" };
+    this.state = { value: "", projectExists: true };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   handleChange(event) {
-    this.setState({ value: event.target.value });
+    this.setState({ value: event.target.value, projectExists: this.context.projectExists });
   }
 
+  /**
+   * This function will query the project details and update global state accordingly
+   */
   handleSubmit(event) {
     const { value } = this.state;
     const [context, dispatch] = this.context;
@@ -48,24 +52,24 @@ class Navigation extends Component {
           type: "SET_PROJECT_NAME",
           payload: res.data.projectName,
         })
+        // set project ID
+        dispatch({
+          type: "SET_PROJECT_ID",
+          payload: value,
+        })
         this.props.history.push(`/project/${value}`);
         // window.location.href = `/project/${value}`;
       })
       .catch((error) => {
         console.log({ error });
         if (error.response.status === 404) {
-          // project Not found, pop an alert
-          // window.alert("Project ID not found!")
+          this.setState({projectExists: false})
           dispatch({
             type: "SET_PROJECT_EXISTS",
             payload: false,
           })
         }
       });
-    dispatch({
-      type: "SET_PROJECT_ID",
-      payload: value,
-    })
     event.preventDefault();
   }
 
@@ -73,6 +77,7 @@ class Navigation extends Component {
     // const context = this.context;
     // console.log(context);
     return (
+      <>
       <div className="guide-bar">
         <Navbar
           collapseOnSelect
@@ -141,6 +146,14 @@ class Navigation extends Component {
           </Navbar.Collapse>
         </Navbar>
       </div>
+      {this.state.projectExists === false && (
+        <Alert variant="danger">
+          The project with ID{" "}
+          <Alert.Link href="/notfound">{this.state.value}</Alert.Link> is not in our
+          database. Please make sure you have converted it first.
+        </Alert>
+      )}
+      </>
     );
   }
 }
