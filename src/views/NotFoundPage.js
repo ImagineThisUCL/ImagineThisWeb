@@ -13,7 +13,7 @@ export default class NotFoundPage extends Component {
           <div className="row justify-content-center">
             <div className="col-xs-12 col-md-8 col-md-offset-2 col-lg-6 col-lg-offset-3">
               <div className="row justify-content-center">
-                <h1 className="text-center">Oops!</h1>
+                <h1 className="text-center">Resource Not Found</h1>
               </div>
               <h2 className="text-center">
                 We can't seem to find what you're looking for.
