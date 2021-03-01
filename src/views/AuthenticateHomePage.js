@@ -57,16 +57,14 @@ const AuthenticateHomePage = (props) => {
    * Authentication with Access Token and Project ID
    */
   const getFigmaProject = () => {
-    if (!this.validateForm()) {
-      this.setState({
-        loaderVisible: true,
-        errorMessageVisible: false,
-      });
+    if (!validateForm()) {
+      setLoaderVisible(true);
+      setErrorMessageVisible(false);
       api
-        .get(`/projects/${projectID}/wireframes`, {
+        .get(`/projects/${projectID}/wireframes`, {params: {
           accessToken,
           authType: "originalToken",
-        })
+        }})
         .then(res => {
           setLoaderVisible(false);
           setErrorMessageVisible(false);
