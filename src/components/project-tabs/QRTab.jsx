@@ -13,16 +13,16 @@ class QRTab extends Component {
     return (
       <div>
         <div className="container d-none d-xl-block d-lg-block d-xl-none d-xl-block d-md-block d-lg-none">
-          <div id="QRdiv">
+          <div id="qr-div">
             <a href="exp://exp.host/@imaginethis/testing-application-imaginethis">
-              <QRCode className="QRCode" style={{ height: "150px", width: "150px", margin: "0px" }} value="exp://exp.host/@imaginethis/testing-application-imaginethis" />
+              <QRCode className="qrcode" style={{ height: "150px", width: "150px", margin: "0px" }} value="exp://exp.host/@imaginethis/testing-application-imaginethis" />
             </a>
           </div>
           {/* this is the instruction for the PC device */}
-          <div id="instructionDiv" className="">
-            <h3 className="QRTab_Title">QR Code  Instructions</h3>
+          <div id="instruction-div" className="">
+            <h3 className="qrtab-title">QR Code  Instructions</h3>
             {/* <p>In order to successfully run the prototype, please do the following steps</p> */}
-            <ol className="PC_ordered_list">
+            <ol className="pc-ordered-list">
               <p>To run this prototype on your device, do the following steps:</p>
 
               <li>
@@ -48,16 +48,16 @@ class QRTab extends Component {
 
         <div className="container d-block d-sm-none d-none d-sm-block d-md-none">
           {/* this is the instruction for the mobile device */}
-          <div className="Mobile_instructionDiv">
-            <h3 className="Mobile_QRTab_Title">QR Code Using Instructions</h3>
-            <p className="mobile_ordered_p mobile_ordered_list ">
+          <div className="mobile_instruction-div">
+            <h3 className="mobile-qrtab-title">QR Code Using Instructions</h3>
+            <p className="mobile-ordered-p mobile-ordered-list ">
               To run the prototype your device, please do the following steps:
               <br />
               <br />
             </p>
-            <p className="mobile_ordered_p mobile_ordered_list mobile_device_name">Android User:</p>
+            <p className="mobile-ordered-p mobile-ordered-list mobile-device-name">Android User:</p>
 
-            <ol className="mobile_ordered_list">
+            <ol className="mobile-ordered-list">
 
               <li>
                 Install the "
@@ -66,15 +66,9 @@ class QRTab extends Component {
               </li>
               <li>Click the QR code at the bottom of the screen. This should open the expo app</li>
               <li>The prototype will then begin running on your device</li>
-              {/* <p> */}
-              {/*  <br /> */}
-              {/*  Please check for other related details： */}
-              {/*  {' '} */}
-              {/*  <a href="https://expo.io/">expo.io</a> */}
-              {/* </p> */}
             </ol>
-            <p className="mobile_ordered_p mobile_ordered_list mobile_device_name">IOS User:</p>
-            <ol className="mobile_ordered_list">
+            <p className="mobile-ordered-p mobile-ordered-list mobile-device-name">IOS User:</p>
+            <ol className="mobile-ordered-list">
 
               <li>
                 Install the "
@@ -82,19 +76,19 @@ class QRTab extends Component {
                 " on app on your mobile device
               </li>
               <li>Login into the "Expo Go" application</li>
-              <li>Using the phone's camera to scan the QR code.</li>
+              <li>Using the device's camera to scan the QR code.</li>
               <li>The prototype will then begin running on your device</li>
             </ol>
-            <p className="mobile_ordered_p mobile_ordered_list">
+            <p className="mobile-ordered-p mobile-ordered-list">
 
               Please check for other related details：
               {' '}
               <a href="https://expo.io/">expo.io</a>
             </p>
           </div>
-          <div className="Mobile_QR">
+          <div className="mobile-qr">
             <a href="exp://exp.host/@imaginethis/testing-application-imaginethis">
-              <QRCode className=" QRCode" style={{ height: "100px", width: "100px", margin: "0px" }} value="exp://exp.host/@imaginethis/testing-application-imaginethis" />
+              <QRCode className=" qrcode" style={{ height: "100px", width: "100px", margin: "0px" }} value="exp://exp.host/@imaginethis/testing-application-imaginethis" />
             </a>
           </div>
         </div>
