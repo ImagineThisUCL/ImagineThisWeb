@@ -76,7 +76,7 @@ class QRTab extends Component {
                 " on app on your mobile device
               </li>
               <li>Login into the "Expo Go" application</li>
-              <li>Using the device's camera to scan the QR code.</li>
+              <li>Click the QR code at the bottom of the screen. This should open the expo app</li>
               <li>The prototype will then begin running on your device</li>
             </ol>
             <p className="mobile-ordered-p mobile-ordered-list">
