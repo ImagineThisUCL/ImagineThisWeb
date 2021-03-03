@@ -1,7 +1,7 @@
 .container{
     overflow: hidden;
 }
-#QRdiv{
+#qr-div{
     float:left;
     position:relative;
     /*left:4%;*/
@@ -11,28 +11,56 @@
     height: 200px;
     display: block;
 }
-.QRCode{
+.qrcode{
     height: 200px;
     width: 200px;
     margin: 0px;
 }
-#instructionDiv{
+#instruction-div{
     float: left;
     position: relative;
     /*left: 0.5%;*/
     /*width: 80%;*/
 }
-.QRTab_Title{
+.qrtab-title{
     text-align: center;
 }
 p{
-    font-size: 18px;
+    /*font-size: 18px;*/
 }
-ol{
+.pc-ordered-list{
     font-size: 18px;
     text-align: justify;
 }
 .clear{
     clear: both;
 }
+
+.mobile-qr{
+    text-align: center;
+}
+
+.mobile-qrtab-title{
+    text-align: center;
+    /*left: 100%;*/
+    font-size: 20px;
+}
+.mobile_instruction-div{
+    width: 100%;
+    /*display: block;*/
+}
+.mobile-ordered-list{
+    font-size: 12px;
+    padding-left: 8%;
+}
+
+.mobile-ordered-p{
+    text-align: center;
+    padding-right: 8%;
+}
+.mobile-device-name{
+    font-weight:bold;
+}
+
+
 
