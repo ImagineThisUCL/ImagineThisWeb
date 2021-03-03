@@ -75,7 +75,7 @@ class QRTab extends Component {
                 <a href="https://expo.io/tools">Expo Go</a>
                 " on app on your mobile device
               </li>
-              <li>Login into the "Expo Go" application</li>
+              <li>Login into the "Expo Go" application using the following account(Username:imaginethistest   Password:ImagineThisUCL2021)</li>
               <li>Click the QR code at the bottom of the screen. This should open the expo app</li>
               <li>The prototype will then begin running on your device</li>
             </ol>
