@@ -34,10 +34,6 @@ h2 {
   margin-bottom: 26px;
 }
 
-body {
-  background-color: #f8f8f8;
-}
-
 @keyframes type {
   from {
     box-shadow: inset -3px 0px 0px #888;
