@@ -8,6 +8,11 @@ FROM node:10 AS builder
 WORKDIR /app
 # Copy all files from current directory to working dir in image
 COPY . .
+# Setup environment variables during build time, since CRA cannot read environment variable during runtime
+ARG REACT_APP_DOMAIN
+ARG REACT_APP_BACKEND_ADDRESS
+ENV REACT_APP_BACKEND_ADDRESS=${REACT_APP_BACKEND_ADDRESS}
+ENV REACT_APP_DOMAIN=${REACT_APP_DOMAIN}
 # install node modules and build assets
 RUN npm install && npm run build
 
