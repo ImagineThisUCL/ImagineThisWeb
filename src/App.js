@@ -1,12 +1,10 @@
 import React, { useContext, useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Route, Switch, BrowserRouter as Router, HashRouter, useHistory } from "react-router-dom";
-import { v4 as uuidv4 } from "uuid";
 import AuthenticateHomePage from "./views/AuthenticateHomePage";
 import { OauthCallBackPage } from "./views/OauthCallBackPage";
 import { WireframesPage } from "./views/WireframesPage";
 import ProjectPage from "./views/ProjectPage";
-import { FeedbackContext, FeedbackContextProvider } from "./contexts/feedback-context";
 import NotFoundPage from "./views/NotFoundPage";
 import { userAPI } from "./api";
 
@@ -70,7 +68,7 @@ function App() {
   // FeedbackContextProvider provides the whole project with shared, centralised states
   return (
     // since the global context will be shared across different pages, the router should be a hash router
-    <HashRouter>
+    <Router>
       <div className="App">
         <Switch>
           <Route exact path="/" component={AuthenticateHomePage} />
@@ -80,7 +78,7 @@ function App() {
           <Route path="/" component={NotFoundPage} />
         </Switch>
       </div>
-    </HashRouter>
+    </Router>
   );
 }
 

@@ -9,7 +9,7 @@ export default class NotFoundPage extends Component {
       <>
         <Navigation history={this.props.history} />
 
-        <div className="container">
+        <div className="container container-notfound">
           <div className="row justify-content-center">
             <div className="col-xs-12 col-md-8 col-md-offset-2 col-lg-6 col-lg-offset-3">
               <div className="row justify-content-center">

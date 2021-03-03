@@ -1,4 +1,6 @@
-import React, { useReducer, createContext } from 'react';
+import React, { useReducer, createContext, useState } from 'react';
+import { v4 as uuidv4 } from "uuid";
+import { userAPI } from '../api';
 
 const FeedbackContext = createContext();
 
@@ -66,6 +68,58 @@ const reducer = (state, action) => {
 
 const FeedbackContextProvider = (props) => {
   const [state, dispatch] = useReducer(reducer, globalState);
+
+  const createAnonymousUser = () => {
+    // create an anonymous user
+    console.log('Generating new user credential');
+    const userName = 'Anonymous User';
+    const userID = uuidv4();
+    // send a request to the server
+    userAPI('POST', undefined, { userId: userID, userName })
+      .then((res) => {
+        if (res.data.success) {
+          console.log('Setting up local Storage');
+          // update localStorage
+          localStorage.setItem('user', JSON.stringify({ userID, userName }));
+          setUserCredential(userName, userID);
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  /**
+   * This method will update the userName and userID in global context
+   */
+  const setUserCredential = (userName, userID) => {
+    dispatch({
+      type: "SET_USER_NAME",
+      payload: userName,
+    });
+    dispatch({
+      type: "SET_USER_ID",
+      payload: userID,
+    })
+  };
+  
+  useState(() => {
+    // check if there is a user credential stored in localStorage
+    // if not, create a new user credential
+    const storedUserStr = localStorage.getItem('user');
+    let userID = "";
+    let userName = "";
+    if (storedUserStr === null) {
+      createAnonymousUser();
+    } else {
+      // get user credential from localStorage
+      const storedUser = JSON.parse(storedUserStr);
+      userID = storedUser.userID;
+      userName = storedUser.userName;
+      setUserCredential(userName, userID);
+    }
+  }, [])
+
   return <FeedbackContext.Provider value={[state, dispatch]}>{props.children}</FeedbackContext.Provider>;
 };
 

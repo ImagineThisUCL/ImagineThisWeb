@@ -5,7 +5,7 @@ import Navigation from "../components/Navigation";
 import FeedbackTab from "../components/project-tabs/FeedbackTab";
 import QRTab from "../components/project-tabs/QRTab";
 import DownloadTab from "../components/project-tabs/DownloadTab";
-import { projectAPI } from "../api";
+import api, { projectAPI } from "../api";
 import "../css/projectpage.css";
 import { FeedbackContext } from "../contexts/feedback-context";
 
@@ -23,7 +23,43 @@ export default class ProjectPage extends Component {
   componentDidMount() {
     // init local state with global state
     const [context, dispatch] = this.context;
-    this.setState({projectID: context.projectID, projectName: context.projectName})
+    // check if global state exists
+    if (context.projectID === "") {
+      // get projectID from url param
+      const param = this.props.match.params.projectID;
+      api
+        .get(`/projects/${param}`)
+        .then((res) => {
+          dispatch({
+            type: "SET_PROJECT_EXISTS",
+            payload: true,
+          })
+          // set project name
+          dispatch({
+            type: "SET_PROJECT_NAME",
+            payload: res.data.projectName,
+          })
+          // set project ID
+          dispatch({
+            type: "SET_PROJECT_ID",
+            payload: param,
+          })
+          // update local state
+          this.setState({projectID: param, projectName: res.data.projectName})
+        })
+        .catch((error) => {
+          console.log({ error });
+          this.setState({projectExists: false})
+          dispatch({
+            type: "SET_PROJECT_EXISTS",
+            payload: false,
+          })
+          // go to 404 page
+          this.props.history.push(`/notfound`);
+        });
+    } else {
+      this.setState({projectID: context.projectID, projectName: context.projectName})
+    }
   }
 
   componentDidUpdate(prevProps) {

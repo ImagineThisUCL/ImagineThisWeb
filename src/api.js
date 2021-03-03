@@ -1,11 +1,9 @@
 import axios from 'axios';
 import moment from 'moment';
-
-const API_SERVER_ADDR = process.env.NODE_ENV === 'production'
-  ? "http://213.168.248.64:8080" : "http://localhost:8080";
+import { BACKEND_ADDRESS } from './consts';
 
 const api = axios.create({
-  baseURL: `${API_SERVER_ADDR}/api/v1`,
+  baseURL: `${BACKEND_ADDRESS}/api/v1`,
 });
 
 const projectAPI = (method) => api({
