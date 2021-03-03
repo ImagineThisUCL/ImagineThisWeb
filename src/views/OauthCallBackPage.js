@@ -141,7 +141,7 @@ export class OauthCallBackPage extends Component {
   render() {
     return (
       <>
-        <Navigation />
+        <Navigation history={this.props.history} />
         <div className="container">
           <div className="row">
             <div className="col-12 col-lg-8 offset-lg-2 text-center">
