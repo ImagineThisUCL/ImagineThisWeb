@@ -19,7 +19,6 @@ const QRTab = (props) => {
 
   const sendEmail = (e) => {
     e.preventDefault();
-    console.log(inputEl);
     const email = inputEl.current.value;
     const id = props.projectID;
     generationAPI("POST", id, email)
