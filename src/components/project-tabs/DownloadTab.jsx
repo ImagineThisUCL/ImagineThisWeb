@@ -14,6 +14,9 @@ const DownloadTab = (props) => {
 
   return (
     <div>
+      <div className="panel-body">
+        <h4>Download Source Code</h4>
+        <hr/>
       <p>To download the source code of the prototype press the "Download" button below.</p>
       <p>Then follow the instructions in the <a href="https://imaginethisucl.github.io/getting%20started/how%20to%20use.html#5-running-generated-project">
               quick start guide
@@ -21,6 +24,7 @@ const DownloadTab = (props) => {
       <Button onClick={downloadCode} input variant="primary" type="" value="Download">
         Download
       </Button>
+      </div>
     </div>
   );
 }

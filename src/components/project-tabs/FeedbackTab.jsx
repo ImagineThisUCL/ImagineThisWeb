@@ -87,7 +87,6 @@ const FeedbackTab = (props) => {
 
   return (
     <div className="container">
-      <br />
       <div className="FeedbackTab panel panel-default">
         <div className="panel-body">
           <h4>Post Feedback / Vote on Feedback</h4>
