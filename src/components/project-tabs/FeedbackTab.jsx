@@ -13,6 +13,7 @@ const FeedbackTab = (props) => {
   const [sortButtonText, setSortButtonText] = useState("Sort by Time");
   // get feedbacks
   useEffect(() => {
+    if (props.projectID === '') return;
     // get all votes for the existing user
     userAPI('GET', state.userID)
       .then((res) => {

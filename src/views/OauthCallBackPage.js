@@ -59,7 +59,6 @@ export class OauthCallBackPage extends Component {
           grant_type: "authorization_code",
         },
         success(data) {
-          console.log(data);
           accessToken = data.access_token;
         },
         error(xhr, status, err) {

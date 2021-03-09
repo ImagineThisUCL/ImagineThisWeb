@@ -14,6 +14,7 @@ const QRTab = (props) => {
 
   useEffect(() => {
     const param = props.projectID;
+    if (param === '') return;
     api
       .get(`/projects/${param}/conversions`)
       .then((res) => {
@@ -35,10 +36,14 @@ const QRTab = (props) => {
   if (!!state.conversions.length) {
     // We are only interested in the latest conversion that had run or is running
     const executedStatuses = ["RUNNING", "SUCCEEDED", "FAILED"];
-    conversions = state.conversions.filter((el) => executedStatuses.includes(el.publishStatus));
-    conversions = conversions.sort(sortByTimestamp);
-    lastConversion = conversions[0];
-    console.log(`Last conversion ${lastConversion.conversionId} for project ${lastConversion.projectId} has status ${lastConversion.publishStatus}`);
+    try {
+      conversions = state.conversions.filter((el) => executedStatuses.includes(el.publishStatus));
+      conversions = conversions.sort(sortByTimestamp);
+      lastConversion = conversions[0];
+      console.log(`Last conversion ${lastConversion.conversionId} for project ${lastConversion.projectId} has status ${lastConversion.publishStatus}`);
+    } catch (e) {
+      console.log(e);
+    }
   } else {
     console.log(`No conversions found for project ${state.projectID}`);
   }
