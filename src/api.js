@@ -11,6 +11,19 @@ const projectAPI = (method) => api({
   url: '/projects',
 });
 
+const generationAPI = (method, projectID, email) => {
+  if (method.toUpperCase() === 'POST') {
+    return api({
+      method,
+      url: `/projects/${projectID}/publish/invitation`,
+      params: {
+        email, 
+      }
+    })
+  }
+  throw new Error('Unsupported');
+}
+
 const feedbackAPI = (method, projectID, feedbackID, data) => {
   if (method.toUpperCase() === 'POST') {
     if (data === undefined) {
@@ -151,5 +164,5 @@ const parseFeedbacks = (data) => {
 export default api;
 
 export {
-  projectAPI, feedbackAPI, userAPI, voteAPI,
+  projectAPI, feedbackAPI, userAPI, voteAPI, generationAPI,
 };

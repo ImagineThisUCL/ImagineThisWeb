@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import QRCode from "qrcode.react";
 import "../../css/project-tabs/QRtab.css";
 import Loader from "react-loader-spinner";
@@ -9,7 +9,7 @@ import Form from "react-bootstrap/Form";
 import InputGroup from "react-bootstrap/InputGroup";
 import FormControl from "react-bootstrap/FormControl";
 import Button from "react-bootstrap/Button";
-import api from "../../api.js";
+import api, { generationAPI } from "../../api.js";
 import Search from "../../assets/Search.svg";
 
 import { FeedbackContext } from "../../contexts/feedback-context";
@@ -17,15 +17,21 @@ import { FeedbackContext } from "../../contexts/feedback-context";
 const QRTab = (props) => {
   // useContext can be used to access global context and dispatch changes
   const [state, dispatch] = useContext(FeedbackContext);
+  // this ref is used to get the input value
+  const inputEl = useRef(null);
 
-  const sendEmail = () => {
+  const sendEmail = (e) => {
+    e.preventDefault();
+    const email = inputEl.current.value;
     const id = props.projectID;
-    api
-      .post(`/api/v1/projects/${id}/publish/invitation`, {
-        email: 'fill in',
-      })
+    generationAPI("POST", id, email)
       .then((res) => {
-        console.log(res);
+        if (res.data != "Error") {
+          console.log(`Invitation ID: ${res.data}`);
+        }
+      })
+      .catch((e) => {
+        console.log(e);
       });
   };
 
@@ -127,12 +133,13 @@ const QRTab = (props) => {
           <Row>
             <Col>
               <Form
-                // onSubmit={this.handleSubmit} Here RUi
+                onSubmit={sendEmail}
                 className="input-group navbar-group"
                 style={{ margin: "", width: "50%" }}
               >
                 <InputGroup className="input-group-prepend">
                   <FormControl
+                      ref={inputEl}
                       className="form-control navbar-input"
                       aria-describedby="basic-addon1"
                       placeholder="Enter your Expo account email address"
