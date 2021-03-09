@@ -106,12 +106,11 @@ const QRTab = (props) => {
                 <a href="https://expo.io/tools">Expo Go</a>
                 " app on your mobile device.
               </li>
-              {/* <li>After opening the App, select the "Scan QR Code" option on the top of the sceen</li> */}
-              {/*<li>Sign into your Expo account, or create one if you don't already have one.</li>*/}
-              {/*<li>Add yourself to the ImagineThis Expo organisation by entering in your account's*/}
-                {/*email via the text box below</li>*/}
-              {/*<li>Go to your email and accept the invitation to the organisation.*/}
-              {/*  If you are already a member you can skip this step.</li>*/}
+              <li>Sign into your Expo account, or create one if you don't already have one.</li>
+              <li>Add yourself to the ImagineThis Expo organisation by entering in your account's
+                email via the text box below</li>
+              <li>Go to your email and accept the invitation to the organisation.
+                If you are already a member you can skip this step.</li>
               <li>Open your device's built-in camera app and point it at the QR code on this page</li>
               <li>A notification will appear saying to open the build in Expo. Click on this.</li>
               <li>The expo app should then open and the prototype should begin to run on your device.</li>
@@ -122,7 +121,7 @@ const QRTab = (props) => {
           <Form
             // onSubmit={this.handleSubmit}
             className="input-group navbar-group"
-            style={{margin: "auto",width:"50%"}}
+            style={{margin: "auto",width:"40%",left:"9%"}}
           >
             <InputGroup className="input-group-prepend">
               <FormControl
@@ -148,31 +147,23 @@ const QRTab = (props) => {
             <p className="mobile-ordered-p mobile-ordered-list ">
               To run the prototype your device, please do the following steps:
               <br />
-              <br />
             </p>
-            <p className="mobile-ordered-p mobile-ordered-list mobile-device-name">Android User:</p>
 
             <ol className="mobile-ordered-list">
 
               <li>
                 Install the "
                 <a href="https://expo.io/tools">Expo Go</a>
-                " on app on your mobile device
+                " app on your mobile device.
               </li>
-              <li>Click the QR code at the bottom of the screen. This should open the expo app</li>
-              <li>The prototype will then begin running on your device</li>
-            </ol>
-            <p className="mobile-ordered-p mobile-ordered-list mobile-device-name">IOS User:</p>
-            <ol className="mobile-ordered-list">
-
-              <li>
-                Install the "
-                <a href="https://expo.io/tools">Expo Go</a>
-                " on app on your mobile device
-              </li>
-              <li>Login into the "Expo Go" application using the following account(Username:imaginethistest   Password:ImagineThisUCL2021)</li>
-              <li>Click the QR code at the bottom of the screen. This should open the expo app</li>
-              <li>The prototype will then begin running on your device</li>
+              <li>Sign into your Expo account, or create one if you don't already have one.</li>
+              <li>Add yourself to the ImagineThis Expo organisation by entering in your account's
+                email via the text box below</li>
+              <li>Go to your email and accept the invitation to the organisation.
+                If you are already a member you can skip this step.</li>
+              <li>Open your device's built-in camera app and point it at the QR code on this page</li>
+              <li>A notification will appear saying to open the build in Expo. Click on this.</li>
+              <li>The expo app should then open and the prototype should begin to run on your device.</li>
             </ol>
             <p className="mobile-ordered-p mobile-ordered-list">
 
@@ -180,6 +171,7 @@ const QRTab = (props) => {
               {' '}
               <a href="https://expo.io/">expo.io</a>
             </p>
+            <div style={{textAlign: "center", fontSize:"12px"}}>Last build: {moment(lastConversion.timestamp).format("DD/MM/YY HH:mm")} by {lastConversion.userName}</div>
             <Form
               // onSubmit={this.handleSubmit}
               className="input-group navbar-group"
@@ -202,7 +194,7 @@ const QRTab = (props) => {
           </div>
           <div className="mobile-qr">
             <a href={qrCodeLink}>
-              <QRCode className=" qrcode" style={{ height: "100px", width: "100px", margin: "0px" }} value={qrCodeLink} />
+              <QRCode className=" qrcode" style={{ height: "100px", width: "100px", margin: "0px" ,marginTop:"10%"}} value={qrCodeLink} />
             </a>
           </div>
         </div>

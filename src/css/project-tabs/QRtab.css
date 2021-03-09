@@ -5,7 +5,7 @@
     float:left;
     position:relative;
     /*left:4%;*/
-    margin-top: 6%;
+    margin-top: 10%;
     margin-left: 50px;
     width: 200px;
     height: 200px;
@@ -19,8 +19,9 @@
 #instruction-div{
     float: left;
     position: relative;
+
     /*left: 0.5%;*/
-    /*width: 80%;*/
+    width: 70%;
 }
 .qrtab-title{
     text-align: center;
