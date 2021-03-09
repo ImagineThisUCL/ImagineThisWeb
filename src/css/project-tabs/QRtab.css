@@ -15,6 +15,7 @@
     height: 200px;
     width: 200px;
     margin: 0px;
+
 }
 #instruction-div{
     float: left;
@@ -34,10 +35,14 @@ p{
     font-size: 18px;
     text-align: justify;
     margin-top: 3%;
+    margin-right: 8%;
 }
 
 .pc-ordered-list-p{
     margin-left: -2.5%;
+}
+.pc-qr-col{
+    margin: auto;
 }
 
 .clear{
