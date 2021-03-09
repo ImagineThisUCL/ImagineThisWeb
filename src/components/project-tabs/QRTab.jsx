@@ -10,6 +10,7 @@ import { FeedbackContext } from "../../contexts/feedback-context";
 import Search from "../../assets/Search.svg";
 
 
+
 const QRTab = (props) => {
   // useContext can be used to access global context and dispatch changes
   const [state, dispatch] = useContext(FeedbackContext);
@@ -159,6 +160,7 @@ const QRTab = (props) => {
                   If you are already a member you can skip this step.
                   </li>
                 <li>Open your device's built-in camera app and point it at the QR code on this page.</li>
+
                 <li>A notification will appear saying to open the build in Expo. Click on this.</li>
                 <li>The expo app should then open and the prototype should begin to run on your device.</li>
               </ol>
@@ -285,6 +287,7 @@ const QRTab = (props) => {
               {/*    <img alt="search button" src={Search} />*/}
               {/*  </Button>*/}
               {/*</InputGroup.Append>*/}
+
             </InputGroup>
           </Form>
 
