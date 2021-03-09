@@ -2,17 +2,10 @@ import React, { useContext, useEffect, useRef, useState } from "react";
 import QRCode from "qrcode.react";
 import "../../css/project-tabs/QRtab.css";
 import Loader from "react-loader-spinner";
-import { Col, Container, Row } from "react-bootstrap";
-import moment from 'moment';
-import * as Icon from 'react-bootstrap-icons';
-import Form from "react-bootstrap/Form";
-import InputGroup from "react-bootstrap/InputGroup";
-import FormControl from "react-bootstrap/FormControl";
-import Button from "react-bootstrap/Button";
+import "react-bootstrap";
+import moment from "moment";
 import api, { generationAPI } from "../../api.js";
-import Search from "../../assets/Search.svg";
-
-import { FeedbackContext } from "../../contexts/feedback-context";
+import * as Icon from "react-bootstrap-icons";
 
 const QRTab = (props) => {
   // useContext can be used to access global context and dispatch changes
@@ -48,15 +41,16 @@ const QRTab = (props) => {
           });
         }
       })
-      .catch((err) => { console.log(err); });
+      .catch((err) => {
+        console.log(err);
+      });
   }, [props.projectID]);
 
   // Sort conversion from latest to oldest (descending order)
   const sortByTimestamp = function (a, b) {
     return b.timestamp - a.timestamp;
   };
-  let conversions; let
-    lastConversion;
+  let conversions; let lastConversion;
   if (state.conversions.length) {
     // We are only interested in the latest conversion that had run or is running
     const executedStatuses = ["RUNNING", "SUCCEEDED", "FAILED"];
@@ -71,8 +65,6 @@ const QRTab = (props) => {
   } else {
     console.log(`No conversions found for project ${state.projectID}`);
   }
-  // Delete after testing.
-  lastConversion = "asdas";
 
   // Create QR code link
   const qrCodeLink = `exp://exp.host/@imaginethis/${state.projectID}`;
@@ -88,33 +80,30 @@ const QRTab = (props) => {
         </div>
       </div>
     );
-  } if (lastConversion.publishStatus == "RUNNING") {
+  } else if (lastConversion.publishStatus == "RUNNING") {
     return (
       <div className="qr-code-status-tab">
         <Loader type="BallTriangle" color="#005EB8" width={100} height={100} />
         <div className="qr-code-status-tab-text-box">
-          <h3>We are currently publishing your project! It may take couple minutes...</h3>
+          <h3>
+            We are currently publishing your project! It may take couple
+            minutes...
+          </h3>
           <h5>
-            User
-            {lastConversion.userName}
-            {' '}
-            triggered build on
+            User {lastConversion.userName} triggered build on{" "}
             {moment(lastConversion.timestamp).format("DD/MM/YY HH:mm")}
           </h5>
         </div>
       </div>
     );
-  } if (lastConversion.publishStatus == "FAILED") {
+  } else if (lastConversion.publishStatus == "FAILED") {
     return (
       <div className="qr-code-status-tab">
         <Icon.Bug color="#005EB8" size={70} />
         <div className="qr-code-status-tab-text-box">
           <h3>Oops! Your build failed.</h3>
           <h5>
-            User
-            {lastConversion.userName}
-            {' '}
-            triggered build on
+            User {lastConversion.userName} triggered build on{" "}
             {moment(lastConversion.timestamp).format("DD/MM/YY HH:mm")}
           </h5>
         </div>
@@ -277,12 +266,13 @@ const QRTab = (props) => {
             <a href="https://expo.io/">expo.io</a>
           </p>
           <Form
-              // onSubmit={this.handleSubmit}
+            onSubmit={sendEmail}
             className="input-group navbar-group"
             style={{ margin: "auto", width: "90%" }}
           >
             <InputGroup className="input-group-prepend">
               <FormControl
+                ref={inputEl}
                 style={{ fontSize: "12px" }}
                 className="form-control navbar-input"
                 aria-describedby="basic-addon1"
