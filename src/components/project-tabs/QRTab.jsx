@@ -90,17 +90,13 @@ const QRTab = (props) => {
   return (
       <div>
         <div className="container d-none d-xl-block d-lg-block d-xl-none d-xl-block d-md-block d-lg-none">
-          <div id="qr-div">
-            <a href={qrCodeLink}>
-              <QRCode className="qrcode" style={{ height: "150px", width: "150px", margin: "0px" }} value={qrCodeLink} />
-            </a>
-          </div>
+
           {/* this is the instruction for the PC device */}
           <div id="instruction-div" className="">
             <h3 className="qrtab-title">QR Code Instructions</h3>
             {/* <p>In order to successfully run the prototype, please do the following steps</p> */}
             <ol className="pc-ordered-list">
-              <p>To run this prototype on your device, do the following steps:</p>
+              <p className="pc-ordered-list-p">To run this prototype on your device, do the following steps:</p>
               <li>
                 Install the "
                 <a href="https://expo.io/tools">Expo Go</a>
@@ -115,28 +111,34 @@ const QRTab = (props) => {
               <li>A notification will appear saying to open the build in Expo. Click on this.</li>
               <li>The expo app should then open and the prototype should begin to run on your device.</li>
             </ol>
-            <div style={{textAlign: "center"}}>Last build: {moment(lastConversion.timestamp).format("DD/MM/YY HH:mm")} by {lastConversion.userName}</div>
+            <Form
+                // onSubmit={this.handleSubmit}
+                className="input-group navbar-group"
+                style={{margin: "auto",width:"50%"}}
+            >
+              <InputGroup className="input-group-prepend">
+                <FormControl
+                    className="form-control navbar-input"
+                    aria-describedby="basic-addon1"
+                    placeholder="Enter your Expo account email address"
+                />
+                <InputGroup.Append>
+                  <Button variant="btn btn-light search-button" type="submit">
+                    <img alt="search button" src={Search}/>
+                  </Button>
+                </InputGroup.Append>
+              </InputGroup>
+            </Form>
+
           </div>
 
-          <Form
-            // onSubmit={this.handleSubmit}
-            className="input-group navbar-group"
-            style={{margin: "auto",width:"40%",left:"9%"}}
-          >
-            <InputGroup className="input-group-prepend">
-              <FormControl
-                className="form-control navbar-input"
-                aria-describedby="basic-addon1"
-                placeholder="Enter your Expo account email address"
-              />
-              <InputGroup.Append>
-                <Button variant="btn btn-light search-button" type="submit">
-                  <img alt="search button" src={Search}/>
-                </Button>
-              </InputGroup.Append>
-            </InputGroup>
-          </Form>
 
+          <div id="qr-div">
+            <a href={qrCodeLink}>
+              <QRCode className="qrcode" style={{ height: "150px", width: "150px", margin: "0px" }} value={qrCodeLink} />
+            </a>
+            <div style={{textAlign: "center", marginLeft:"-22%"}}>Last build: {moment(lastConversion.timestamp).format("DD/MM/YY HH:mm")} by {lastConversion.userName}</div>
+          </div>
           <div className="clear" />
         </div>
 
@@ -171,7 +173,6 @@ const QRTab = (props) => {
               {' '}
               <a href="https://expo.io/">expo.io</a>
             </p>
-            <div style={{textAlign: "center", fontSize:"12px"}}>Last build: {moment(lastConversion.timestamp).format("DD/MM/YY HH:mm")} by {lastConversion.userName}</div>
             <Form
               // onSubmit={this.handleSubmit}
               className="input-group navbar-group"
@@ -196,6 +197,7 @@ const QRTab = (props) => {
             <a href={qrCodeLink}>
               <QRCode className=" qrcode" style={{ height: "100px", width: "100px", margin: "0px" ,marginTop:"10%"}} value={qrCodeLink} />
             </a>
+            <div style={{textAlign: "center", fontSize:"12px"}}>Last build: {moment(lastConversion.timestamp).format("DD/MM/YY HH:mm")} by {lastConversion.userName}</div>
           </div>
         </div>
       </div>

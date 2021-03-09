@@ -6,7 +6,7 @@
     position:relative;
     /*left:4%;*/
     margin-top: 10%;
-    margin-left: 50px;
+    margin-left: 10%;
     width: 200px;
     height: 200px;
     display: block;
@@ -24,7 +24,8 @@
     width: 70%;
 }
 .qrtab-title{
-    text-align: center;
+    text-align: left;
+    margin-left: 3%;
 }
 p{
     /*font-size: 18px;*/
@@ -32,7 +33,13 @@ p{
 .pc-ordered-list{
     font-size: 18px;
     text-align: justify;
+    margin-top: 3%;
 }
+
+.pc-ordered-list-p{
+    margin-left: -2.5%;
+}
+
 .clear{
     clear: both;
 }
