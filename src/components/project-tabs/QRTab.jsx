@@ -19,6 +19,7 @@ const QRTab = (props) => {
 
   const sendEmail = (e) => {
     e.preventDefault();
+    console.log(inputEl);
     const email = inputEl.current.value;
     const id = props.projectID;
     generationAPI("POST", id, email)
@@ -72,7 +73,7 @@ const QRTab = (props) => {
 
   // Create QR code link
   const qrCodeLink = `exp://exp.host/@imaginethis/${state.projectID}`;
-
+  lastConversion = "asdf"
   // Depending on the status of last conversion show different contents
   if (!lastConversion) {
     return (
@@ -130,18 +131,18 @@ const QRTab = (props) => {
                 className="input-group navbar-group"
                 style={{ margin: "", width: "50%" }}
               >
-                <InputGroup className="input-group-prepend">
+                <InputGroup className="input-group-append">
                   <FormControl
                       ref={inputEl}
-                      className="form-control mt-4"
+                      className="form-control md-4"
                       aria-describedby="basic-addon1"
                       placeholder="Enter your Expo account email address"
                     />
-                  {/*<InputGroup.Append>*/}
-                  {/*    <Button variant="btn btn-light" type="submit">*/}
-                  {/*      Submit*/}
-                  {/*    </Button>*/}
-                  {/*  </InputGroup.Append>*/}
+                  <InputGroup.Append>
+                     <Button type="submit">
+                       Submit
+                     </Button>
+                  </InputGroup.Append>
                 </InputGroup>
               </Form>
               <ol className="pc-ordered-list">
@@ -276,9 +277,9 @@ const QRTab = (props) => {
           >
             <InputGroup className="input-group-prepend">
               <FormControl
-                ref={inputEl}
+                // ref={inputEl}
                 style={{ fontSize: "12px" }}
-                className="form-control mt-4"
+                className="form-control md-4"
                 aria-describedby="basic-addon1"
                 placeholder="Enter Expo Account Email Address"
               />
