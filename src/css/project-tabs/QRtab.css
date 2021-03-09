@@ -5,8 +5,8 @@
     float:left;
     position:relative;
     /*left:4%;*/
-    margin-top: 6%;
-    margin-left: 50px;
+    margin-top: 10%;
+    margin-left: 10%;
     width: 200px;
     height: 200px;
     display: block;
@@ -15,15 +15,18 @@
     height: 200px;
     width: 200px;
     margin: 0px;
+
 }
 #instruction-div{
     float: left;
     position: relative;
+
     /*left: 0.5%;*/
-    /*width: 80%;*/
+    width: 70%;
 }
 .qrtab-title{
-    text-align: center;
+    text-align: left;
+    margin-left: 3%;
 }
 p{
     /*font-size: 18px;*/
@@ -31,7 +34,17 @@ p{
 .pc-ordered-list{
     font-size: 18px;
     text-align: justify;
+    margin-top: 3%;
+    margin-right: 8%;
 }
+
+.pc-ordered-list-p{
+    margin-left: -2.5%;
+}
+.pc-qr-col{
+    margin: auto;
+}
+
 .clear{
     clear: both;
 }
