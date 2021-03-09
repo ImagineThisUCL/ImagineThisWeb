@@ -19,7 +19,6 @@ const QRTab = (props) => {
 
   const sendEmail = (e) => {
     e.preventDefault();
-    console.log(inputEl);
     const email = inputEl.current.value;
     const id = props.projectID;
     generationAPI("POST", id, email)
@@ -73,7 +72,7 @@ const QRTab = (props) => {
 
   // Create QR code link
   const qrCodeLink = `exp://exp.host/@imaginethis/${state.projectID}`;
-  lastConversion = "asdf"
+
   // Depending on the status of last conversion show different contents
   if (!lastConversion) {
     return (
