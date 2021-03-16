@@ -135,7 +135,7 @@ const QRTab = (props) => {
                 <li>Sign into your Expo account, or create one if you don't already have one.</li>
                 <li>
                   Add yourself to the ImagineThis Expo organisation by entering in your account's
-                  email via the text box above.
+                  email via the text box below.
                   </li>
                 <li>
                   Go to your email and accept the invitation to the organisation.
