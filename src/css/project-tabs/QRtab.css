@@ -45,6 +45,21 @@ p{
     margin: auto;
 }
 
+.pc-input-bar-group{
+    width: 55%;
+    margin-left: 4%;
+    margin-bottom: 1%;
+
+}
+.pc-input-bar{
+    font-size: 14px;
+    height: 100%;
+}
+
+.pc-input-bar:focus{
+    /*border: none;*/
+}
+
 .clear{
     clear: both;
 }
@@ -86,4 +101,5 @@ p{
     display: inline-block;
     margin-left: 30px;
 }
+
 
