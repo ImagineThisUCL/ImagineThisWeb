@@ -49,8 +49,8 @@ p{
     width: 55%;
     margin-left: 4%;
     margin-bottom: 1%;
-
 }
+
 .pc-input-bar{
     font-size: 14px;
     height: 100%;
@@ -62,6 +62,21 @@ p{
 
 .clear{
     clear: both;
+}
+
+.mobile-input-bar-group{
+    margin: auto;
+    width: 100%;
+
+}
+
+.mobile-input-bar{
+    font-size: 12px;
+    height: 100%;
+}
+
+.mobile-input-bar-button{
+    font-size: 12px;
 }
 
 .mobile-qr{

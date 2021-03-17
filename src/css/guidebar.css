@@ -12,10 +12,11 @@
     padding-bottom: 0px;
 }
 
-/*.navbar-input-group{*/
-/*    margin-left:2px;*/
-/*    padding-left: 5px;*/
-/*}*/
+/*Makes it so buttons are in background when modal is shown. */
+.input-group-append{
+    z-index: 0;
+}
+
 
 /*For mobile view to take up full width of screen.*/
 @media screen and (min-width: 992px) {
