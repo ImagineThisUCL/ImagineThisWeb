@@ -1,6 +1,6 @@
-import React, { useReducer, createContext, useState } from 'react';
+import React, { useReducer, createContext, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
-import { userAPI } from '../api';
+import { userAPI } from "../api";
 
 const FeedbackContext = createContext();
 
@@ -13,6 +13,8 @@ const globalState = {
   conversions: [],
   votedFeedbacks: {},
   projectExists: true,
+  successModal: false,
+  errorModal: false,
 };
 
 const reducer = (state, action) => {
@@ -31,7 +33,7 @@ const reducer = (state, action) => {
       return {
         ...state,
         projectName: action.payload,
-      }
+      };
     case "SET_USER_ID":
       return {
         ...state,
@@ -48,10 +50,10 @@ const reducer = (state, action) => {
         feedbacks: action.payload,
       };
     case "SET_CONVERSIONS":
-        return {
-          ...state,
-          conversions: action.payload,
-        };
+      return {
+        ...state,
+        conversions: action.payload,
+      };
     case "ADD_FEEDBACK":
       return {
         ...state,
@@ -67,6 +69,16 @@ const reducer = (state, action) => {
         ...state,
         projectExists: action.payload,
       };
+    case "SET_SUCCESS_MODAL":
+      return {
+        ...state,
+        successModal: action.payload,
+      };
+    case "SET_ERROR_MODAL":
+      return {
+        ...state,
+        errorModal: action.payload,
+      };
     default:
       throw new Error("Operation not supported.");
   }
@@ -77,16 +89,16 @@ const FeedbackContextProvider = (props) => {
 
   const createAnonymousUser = () => {
     // create an anonymous user
-    console.log('Generating new user credential');
-    const userName = 'Anonymous User';
+    console.log("Generating new user credential");
+    const userName = "Anonymous User";
     const userID = uuidv4();
     // send a request to the server
-    userAPI('POST', undefined, { userId: userID, userName })
+    userAPI("POST", undefined, { userId: userID, userName })
       .then((res) => {
         if (res.data.success) {
-          console.log('Setting up local Storage');
+          console.log("Setting up local Storage");
           // update localStorage
-          localStorage.setItem('user', JSON.stringify({ userID, userName }));
+          localStorage.setItem("user", JSON.stringify({ userID, userName }));
           setUserCredential(userName, userID);
         }
       })
@@ -106,13 +118,13 @@ const FeedbackContextProvider = (props) => {
     dispatch({
       type: "SET_USER_ID",
       payload: userID,
-    })
+    });
   };
-  
+
   useState(() => {
     // check if there is a user credential stored in localStorage
     // if not, create a new user credential
-    const storedUserStr = localStorage.getItem('user');
+    const storedUserStr = localStorage.getItem("user");
     let userID = "";
     let userName = "";
     if (storedUserStr === null) {
@@ -124,9 +136,13 @@ const FeedbackContextProvider = (props) => {
       userName = storedUser.userName;
       setUserCredential(userName, userID);
     }
-  }, [])
+  }, []);
 
-  return <FeedbackContext.Provider value={[state, dispatch]}>{props.children}</FeedbackContext.Provider>;
+  return (
+    <FeedbackContext.Provider value={[state, dispatch]}>
+      {props.children}
+    </FeedbackContext.Provider>
+  );
 };
 
 export { FeedbackContext, FeedbackContextProvider };
