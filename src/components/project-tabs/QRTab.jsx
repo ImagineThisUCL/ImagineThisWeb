@@ -275,7 +275,7 @@ const QRTab = (props) => {
           >
             <InputGroup className="input-group-prepend">
               <FormControl
-                ref={inputEl}
+                // ref={inputEl} Can't have inputEl in both places
                 className="form-control md-4 mobile-input-bar"
                 aria-describedby="basic-addon1"
                 placeholder="Enter Expo Account Email Address"
