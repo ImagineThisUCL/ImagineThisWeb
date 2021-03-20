@@ -12,11 +12,11 @@ If the app notices you that "the token or the project ID is not correct" please 
 ## Quick Start Guide
 If it's your first time running this project, you should install all dependencies first:
 ```bash
-$ npm install
+$ npm install  OR  $ yarn install
 ```
 and then use 
 ```bash
-$ npm start
+$ npm start  OR  $ yarn start
 ```
 to start the app.
 
