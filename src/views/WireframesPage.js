@@ -124,7 +124,7 @@ export class WireframesPage extends Component {
             loaderVisible: false,
             successModal: true,
           });
-  
+
           setTimeout(() => {
             this.props.history.push({ pathname: `/project/${projectID}` });
             this.setState({ successModal: false });
