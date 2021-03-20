@@ -12,11 +12,11 @@ If the app notices you that "the token or the project ID is not correct" please 
 ## Quick Start Guide
 If it's your first time running this project, you should install all dependencies first:
 ```bash
-$ npm install  OR  $ yarn install
+$ npm install  
 ```
 and then use 
 ```bash
-$ npm start  OR  $ yarn start
+$ npm start 
 ```
 to start the app.
 
@@ -43,18 +43,10 @@ The build is minified and the filenames include the hashes.<br />
 Your app is ready to be deployed!
 
 See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-<br/>
+
 
 
 
 ## To run the whole ImagineThis System on your local environment:
 
-If you want the entire ImagineThis system to be run in your local environment, including the front-end, back-end and databases. You need to follow the instructions below:
-1. Access the ImagineThis repositories: 
-+ [ImagineThisWeb - front-end](https://github.com/ImagineThisUCL/ImagineThisWeb)
-+ [ImagineThisServer - server](https://github.com/ImagineThisUCL/ImagineThisServer) 
-+ [ImagineThisDatabase - database](https://github.com/ImagineThisUCL/ImagineThisDatabase)
-
-2. Clone these above repositories to your local device. 
-3. Follow the instrcutions specified in the README file to run both front-end, back-end and database at the same time
-4. Access [http://localhost:3000](http://localhost:3000) to view the pages and do the further development
+If you want the entire ImagineThis system to be run in your local environment, including the front-end, back-end and databases. You can access the [ImagineThis system repository](https://github.com/ImagineThisUCL/ImagineThisSystem) and follow the instructions there.
