@@ -109,7 +109,7 @@ class Navigation extends Component {
                   Guidelines
                 </Nav.Link>
               </Nav>
-              <Nav className="mr-auto mb-2">
+              <Nav className="mr-auto">
                 <NavDropdown
                   alignRight
                   title="GitHub"
