@@ -50,3 +50,20 @@ See the section about [deployment](https://facebook.github.io/create-react-app/d
 ## To run the whole ImagineThis System on your local environment:
 
 If you want the entire ImagineThis system to be run in your local environment, including the front-end, back-end and databases. You can access the [ImagineThis system repository](https://github.com/ImagineThisUCL/ImagineThisSystem) and follow the instructions there.
+
+## Env Variables Configuration
+In order to adhere to the changes that the whole ImagineThisSystem are going to deployed using Docker, the front-end now needs to get some configuration value from the system envaribles. For development process though, you can create a `.env` file in the root folder to specify the env variables instead of changing and updating the actual env variable settings on you local machine.
+
+These are the env variables that you need to configure:
+```
+# Address that your application will runs on.
+# For development environment, simply set it to the development server address (http://localhost:3000 by default)
+REACT_APP_DOMAIN="" 
+# These two env variables are related to the Oauth functionality.
+# See [Figma official guide on Oauth](https://www.figma.com/developers/api#oauth2) for more information.
+REACT_APP_CLIENT_ID=""
+REACT_APP_CLIENT_SECRET=""
+# This env variable should be set to the backend API server address. For more information check the ImagineThisServer repo.
+# If the backend server is running locally, the default server address should be http://localhost:8080
+REACT_APP_BACKEND_ADDRESS=""
+```
