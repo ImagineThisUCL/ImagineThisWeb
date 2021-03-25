@@ -1,8 +1,10 @@
 /** deployed version */
 // export const DOMAIN = "http://88.80.186.99";
 export const DOMAIN = process.env.REACT_APP_DOMAIN;
-export const CLIENT_ID = "ZSjQ3iai2GyJYhAXq1fI2D";
-export const CLIENT_SECRET = "64wrt6gPjuFdsnZCtpKj29ZQcjpvVN";
+// export const CLIENT_ID = "ZSjQ3iai2GyJYhAXq1fI2D";
+export const CLIENT_ID = process.env.REACT_APP_CLIENT_ID;
+// export const CLIENT_SECRET = "64wrt6gPjuFdsnZCtpKj29ZQcjpvVN";
+export const CLIENT_SECRET = process.env.REACT_APP_CLIENT_SECRET;
 export const BACKEND_ADDRESS = process.env.REACT_APP_BACKEND_ADDRESS;
 export const LOCAL_HOST = "http://localhost:8080";
 
