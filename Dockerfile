@@ -11,8 +11,12 @@ COPY . .
 # Setup environment variables during build time, since CRA cannot read environment variable during runtime
 ARG REACT_APP_DOMAIN
 ARG REACT_APP_BACKEND_ADDRESS
+ARG REACT_APP_CLIENT_ID
+ARG REACT_APP_CLIENT_SECRET
 ENV REACT_APP_BACKEND_ADDRESS=${REACT_APP_BACKEND_ADDRESS}
 ENV REACT_APP_DOMAIN=${REACT_APP_DOMAIN}
+ENV REACT_APP_CLIENT_ID=${REACT_APP_CLIENT_ID}
+ENV REACT_APP_CLIENT_SECRET=${REACT_APP_CLIENT_SECRET}
 # install node modules and build assets
 RUN npm install && npm run build
 
