@@ -1,17 +1,28 @@
 import axios from 'axios';
 import moment from 'moment';
-
-const API_SERVER_ADDR = process.env.NODE_ENV === 'production'
-  ? "http://213.168.248.64:8080" : "http://localhost:8080";
+import { BACKEND_ADDRESS } from './consts';
 
 const api = axios.create({
-  baseURL: `${API_SERVER_ADDR}/api/v1`,
+  baseURL: `${BACKEND_ADDRESS}/api/v1`,
 });
 
 const projectAPI = (method) => api({
   method,
   url: '/projects',
 });
+
+const generationAPI = (method, projectID, email) => {
+  if (method.toUpperCase() === 'POST') {
+    return api({
+      method,
+      url: `/projects/${projectID}/publish/invitation`,
+      params: {
+        email, 
+      }
+    })
+  }
+  throw new Error('Unsupported');
+}
 
 const feedbackAPI = (method, projectID, feedbackID, data) => {
   if (method.toUpperCase() === 'POST') {
@@ -153,5 +164,5 @@ const parseFeedbacks = (data) => {
 export default api;
 
 export {
-  projectAPI, feedbackAPI, userAPI, voteAPI,
+  projectAPI, feedbackAPI, userAPI, voteAPI, generationAPI,
 };

@@ -1,14 +1,19 @@
-import React, { Component, Fragment } from "react";
+import React, { Component } from "react";
 
 import "../css/wireframespage.css";
-import $ from "jquery";
 import Button from "react-bootstrap/Button";
 import Cookies from "universal-cookie";
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
 import Loader from "react-loader-spinner";
+import {
+  CheckCircleFill,
+  ArrowCounterclockwise,
+  ExclamationCircleFill,
+} from "react-bootstrap-icons";
 import Navigation from "../components/Navigation";
 import WireframeCard from "../components/WireframeCard";
 import { DOMAIN, BACKEND_ADDRESS } from "../consts";
+import api from "../api";
 
 /*
  * A view showing the thumbnails of Figma frames/artboards available for
@@ -32,6 +37,8 @@ export class WireframesPage extends Component {
       authType: cookie.get("authType"),
       selected: [],
       loaderVisible: false,
+      successModal: false,
+      errorModal: false,
       timeMinutes: 0,
       timeSeconds: 0,
     };
@@ -40,17 +47,6 @@ export class WireframesPage extends Component {
     this.addToSelected = this.addToSelected.bind(this);
     this.removeSelected = this.removeSelected.bind(this);
     this.calcTimeEstimate = this.calcTimeEstimate.bind(this);
-  }
-
-  /*
-   * Select all wireframes
-   */
-  selectAll() {
-    const array = [];
-    this.state.wireframeList.forEach((element) => {
-      array.push(element.name);
-    });
-    this.setState({ selected: array });
   }
 
   /*
@@ -73,6 +69,28 @@ export class WireframesPage extends Component {
   }
 
   /*
+   * Select all wireframes
+   */
+  selectAll() {
+    const array = [];
+    this.state.wireframeList.forEach((element) => {
+      array.push(element.name);
+    });
+    this.setState({ selected: array });
+  }
+
+  /*
+   * Hides notification modal
+
+   */
+  hideModal() {
+    this.setState({
+      successModal: false,
+      errorModal: false,
+    });
+  }
+
+  /*
    * Add the wireframe to the list of selected wireframes
    */
   addToSelected(name) {
@@ -86,31 +104,45 @@ export class WireframesPage extends Component {
    * Request the conversion
    */
   toConvertPage() {
-    this.calcTimeEstimate(this.state.selected.length);
+    const { projectID, authType, accessToken, selected, userID } = this.state;
+
+    this.calcTimeEstimate(selected.length);
+
     this.setState({
+      errorModal: false,
       loaderVisible: true,
     });
-    $.ajax({
-      type: "POST",
-      url: `${BACKEND_ADDRESS}/api/v1/projects/${this.state.projectID}/build?authType=${this.state.authType}&accessToken=${this.state.accessToken}`,
-      contentType: "application/json",
-      dataType: "json",
-      async: true,
-      data: JSON.stringify({
-        wireframeList: this.state.selected,
-        userId: this.state.userID,
-      }),
-      success: function (data) {
-        if (data.success) {
-          window.location.href = `${BACKEND_ADDRESS}/api/v1/projects/${this.state.projectID}/download`;
+
+    api
+      .post(
+        `${BACKEND_ADDRESS}/api/v1/projects/${projectID}/build?authType=${authType}&accessToken=${accessToken}`,
+        { wireframeList: selected, userId: userID, publish: true }
+      )
+      .then((res) => {
+        if (res.data.success) {
+          this.setState({
+            loaderVisible: false,
+            successModal: true,
+          });
+
+          setTimeout(() => {
+            this.props.history.push({ pathname: `/project/${projectID}` });
+            this.setState({ successModal: false });
+          }, 2500);
+        } else {
+          this.setState({
+            loaderVisible: false,
+            errorModal: true,
+          });
         }
-        this.setState({ loaderVisible: false });
-      }.bind(this),
-      error: function (xhr, status, err) {
-        console.log("error");
-        this.setState({ loaderVisible: false });
-      }.bind(this),
-    });
+      })
+      .catch((err) => {
+        this.setState({
+          loaderVisible: false,
+          errorModal: true,
+        });
+        console.log({ err });
+      });
   }
 
   /*
@@ -143,12 +175,12 @@ export class WireframesPage extends Component {
   render() {
     return (
       <>
-        <Navigation history={this.props.history}/>
+        <Navigation history={this.props.history} />
         <div className="container-fluid container--margin-bottom">
           <div className="row">
             <div className="col-12 d-flex flex-column align-items-center">
               <h3 className="mt-5 mb-3">
-                Please select the wireframes that you wish to convert:
+                Please select the wireframes that you wish to build:
               </h3>
             </div>
           </div>
@@ -185,16 +217,14 @@ export class WireframesPage extends Component {
             </Button>
           </div>
           <span className="bottom-actionbar__selected-text">
-            Currently selected:
-            {' '}
-            {this.state.selected.length}
+            Currently selected: {this.state.selected.length}
           </span>
           <Button
             className="bottom-actionbar__button-convert mt-1"
             onClick={() => this.toConvertPage()}
             disabled={this.state.selected.length === 0}
           >
-            Convert to code
+            Build App
           </Button>
         </nav>
         {this.state.loaderVisible && (
@@ -203,17 +233,38 @@ export class WireframesPage extends Component {
               <h4 className="mb-4">We are generating your App template</h4>
               <Loader type="Watch" color="#005EB8" width={50} height={50} />
               <p className="lead mt-4">
-                This will take approximately
-                {' '}
-                {this.state.timeMinutes}
-                {' '}
-                minute(s)
-                and
-                {' '}
-                {this.state.timeSeconds}
-                {' '}
-                seconds.
+                This will take approximately {this.state.timeMinutes} minute(s)
+                and {this.state.timeSeconds} seconds.
               </p>
+            </div>
+          </div>
+        )}
+
+        {this.state.successModal && (
+          <div className="d-flex justify-content-center align-items-center loader-background">
+            <div className="d-flex align-items-center flex-column loader-wrapper">
+              <h4>Project built successfully!</h4>
+              <p className="lead">You will now be redirected...</p>
+              <CheckCircleFill color="green" size={40} />
+            </div>
+          </div>
+        )}
+
+        {this.state.errorModal && (
+          <div className="d-flex justify-content-center align-items-center loader-background">
+            <div className="d-flex align-items-center flex-column loader-wrapper">
+              <h4>Error building project!</h4>
+              <p className="lead">
+                Please try again <ExclamationCircleFill color="red" />
+              </p>
+              <div>
+                <Button variant="secondary" onClick={() => this.hideModal()}>
+                  Close
+                </Button>{" "}
+                <Button variant="danger" onClick={() => this.toConvertPage()}>
+                  Re-try <ArrowCounterclockwise />
+                </Button>
+              </div>
             </div>
           </div>
         )}

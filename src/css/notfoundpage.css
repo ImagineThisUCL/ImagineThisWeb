@@ -1,4 +1,4 @@
-.container {
+.container-notfound {
   overflow: hidden;
   margin: 20px auto 45px;
   background-color: #fff;
@@ -32,10 +32,6 @@ h1 {
 
 h2 {
   margin-bottom: 26px;
-}
-
-body {
-  background-color: #f8f8f8;
 }
 
 @keyframes type {

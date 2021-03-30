@@ -9,11 +9,15 @@ import Navigation from "../components/Navigation";
 import {
   DOMAIN, BACKEND_ADDRESS, CLIENT_SECRET, CLIENT_ID,
 } from "../consts";
+import api from "../api";
+import { FeedbackContext } from "../contexts/feedback-context";
 
 /*
  * A view handling Figma project ID after successful OAuth authentication
  */
 export class OauthCallBackPage extends Component {
+  static contextType = FeedbackContext
+
   constructor(props) {
     super(props);
     const currentURL = window.location.search;
@@ -55,7 +59,6 @@ export class OauthCallBackPage extends Component {
           grant_type: "authorization_code",
         },
         success(data) {
-          console.log(data);
           accessToken = data.access_token;
         },
         error(xhr, status, err) {
@@ -79,27 +82,22 @@ export class OauthCallBackPage extends Component {
    * Authentication with Access Token and Project ID
    */
   getFigmaProject() {
+    const [ context, dispatch ] = this.context;
     if (!this.validateForm()) {
       this.setState({
         loaderVisible: true,
         errorMessageVisible: false,
       });
-      $.ajax({
-        type: "GET",
-        url: `${BACKEND_ADDRESS}/authToken`,
-        dataType: "json",
-        async: true,
-        data: {
+      api
+        .get(`/projects/${this.state.projectID}/wireframes`, {params: {
           accessToken: this.state.accessToken,
-          projectID: this.state.projectID,
           authType: "oauth2Token",
-        },
-        success: function (data) {
+        }})
+        .then(res => {
           this.setState({
             loaderVisible: false,
             errorMessageVisible: false,
           });
-          console.log(data);
           const cookies = new Cookies();
           cookies.set("accessToken", this.state.accessToken, { path: "/" });
           cookies.set("projectID", this.state.projectID, { path: "/" });
@@ -107,20 +105,20 @@ export class OauthCallBackPage extends Component {
           this.props.history.push({
             pathname: "/wireframes",
             state: {
-              projectName: data.projectName,
-              wireframeList: data.wireframes,
+              projectName: res.data.projectName,
+              wireframeList: res.data.wireframes,
+              userID: context.userID,
             },
           });
-        }.bind(this),
-        error: function (xhr, status, err) {
-          console.log(`error${err}`);
+        })
+        .catch((e) => {
+          console.log(e);
           this.setState({
             loaderVisible: false,
             errorMessageVisible: true,
             projectIDError: true,
           });
-        }.bind(this),
-      });
+        });
     }
   }
 

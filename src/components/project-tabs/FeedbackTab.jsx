@@ -13,6 +13,7 @@ const FeedbackTab = (props) => {
   const [sortButtonText, setSortButtonText] = useState("Sort by Time");
   // get feedbacks
   useEffect(() => {
+    if (props.projectID === '') return;
     // get all votes for the existing user
     userAPI('GET', state.userID)
       .then((res) => {
@@ -86,7 +87,6 @@ const FeedbackTab = (props) => {
 
   return (
     <div className="container">
-      <br />
       <div className="FeedbackTab panel panel-default">
         <div className="panel-body">
           <h4>Post Feedback / Vote on Feedback</h4>

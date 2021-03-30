@@ -4,13 +4,11 @@ import { Tab, Tabs, Alert } from "react-bootstrap";
 import Cookies from "universal-cookie";
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
 import Loader from "react-loader-spinner";
-import { v4 as uuidv4 } from "uuid";
+import { useHistory } from "react-router";
 import Navigation from "../components/Navigation";
 import { DOMAIN, BACKEND_ADDRESS, CLIENT_ID } from "../consts";
 import { FeedbackContext } from "../contexts/feedback-context";
-import { userAPI } from "../api";
 import api from "../api";
-import { useHistory } from "react-router";
 
 /*
  * A view handling all authentication
@@ -110,7 +108,7 @@ const AuthenticateHomePage = (props) => {
       {/* {state.projectExists === false && (
         <Alert variant="danger">
           The project with ID{" "}
-          <Alert.Link href="/notfound">{state.projectID}</Alert.Link> is not in our
+          <Alert.Link href="/notfound">{props.projectID}</Alert.Link> is not in our
           database. Please make sure you have converted it first.
         </Alert>
       )} */}

@@ -1,38 +1,90 @@
 .container{
     overflow: hidden;
 }
-#QRdiv{
-    float:left;
-    position:relative;
-    /*left:4%;*/
-    margin-top: 6%;
-    margin-left: 50px;
-    width: 200px;
+
+/*Stops buttons from appearing in foreground when modal is up.*/
+.input-group-append{
+    z-index: 0;
+}
+
+/* PC style */
+@media screen and (min-width: 768px) {
+    .ordered-list{
+        font-size: 16px;
+        text-align: justify;
+        margin-top: 3%;
+        margin-right: 8%;
+    }
+
+
+    .input-email-text{
+        font-size: 14px;
+        margin-left: 2%;
+    }
+
+    .input-email-group{
+        margin: auto;
+        width: 60%;
+        height: 100%;
+        margin-left: 2%;
+    }
+
+    .input-email-field{
+        font-size: 14px;
+        height: 100%;
+
+    }
+}
+
+/* Mobile style */
+@media screen and (max-width: 768px) {
+    .ordered-list{
+        font-size: 14px;
+        padding-left: 8%;
+    }
+
+    .input-email-text{
+        font-size: 12px;
+        margin-left: 2%;
+    }
+
+    .input-email-group{
+        /*margin: "", width: "50%",marginLeft:"2%"*/
+        margin: auto;
+        width: 100%;
+        height: 100%;
+
+    }
+
+    .input-email-field{
+        font-size: 12px;
+        height: 100%;
+    }
+
+    .qrcode{
+        margin-top: 10%;
+    }
+}
+
+.qr-code-status-tab {
+    display: flex;
+    justify-content: center;
+    align-items: center;
     height: 200px;
-    display: block;
 }
-.QRCode{
-    height: 200px;
-    width: 200px;
-    margin: 0px;
+
+.qr-code-status-tab-text-box {
+    display: inline-block;
+    margin-left: 30px;
 }
-#instructionDiv{
-    float: left;
-    position: relative;
-    /*left: 0.5%;*/
-    /*width: 80%;*/
+
+.mobile-last-built-div{
+    text-align: center;
+    font-size: 12px;
 }
-.QRTab_Title{
+
+.col-div{
     text-align: center;
 }
-p{
-    font-size: 18px;
-}
-ol{
-    font-size: 18px;
-    text-align: justify;
-}
-.clear{
-    clear: both;
-}
+
 

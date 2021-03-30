@@ -1,41 +1,41 @@
 .card-wrapper {
-    cursor: pointer;
-    transition: all 400ms ease-in-out;
+  cursor: pointer;
+  transition: all 400ms ease-in-out;
 }
 .card-wrapper:hover {
-    transform: scale(1.02);
+  transform: scale(1.02);
 }
 
 .container--margin-bottom {
-    margin-bottom: 80px;
+  margin-bottom: 80px;
 }
 
 .bottom-actionbar {
-    background-color: #cce5ff;
-    border-top: 2px solid #1E90FF;
+  background-color: #cce5ff;
+  border-top: 2px solid #1e90ff;
 }
 .bottom-actionbar__selected-text {
-    font-size: 20px;
-    font-weight: bold;
-    margin: 4px 8px;
+  font-size: 20px;
+  font-weight: bold;
+  margin: 4px 8px;
 }
 .bottom-actionbar__button-convert {
-    background-color: #1E90FF;
-    padding: 10px 20px;
-    font-weight: bold;
+  background-color: #1e90ff;
+  padding: 10px 20px;
+  font-weight: bold;
 }
 
-.loader-background{
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    background-color: rgba(25, 25, 25, 0.9);
+.loader-background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(25, 25, 25, 0.9);
 }
 
 .loader-wrapper {
-    padding: 40px 30px 20px;
-    background-color: white;
-    border-radius: 10px;
+  padding: 40px 30px 20px;
+  background-color: white;
+  border-radius: 10px;
 }
